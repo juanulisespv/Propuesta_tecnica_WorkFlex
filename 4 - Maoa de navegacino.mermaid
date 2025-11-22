@@ -1,0 +1,63 @@
+graph TD
+    Home[🏠 Página Principal]
+    
+    Home --> Login[🔐 Login/Registro]
+    Home --> Busqueda[🔍 Búsqueda de Espacios]
+    Home --> Membresias[💼 Membresías]
+    Home --> Nosotros[ℹ️ Sobre WorkFlex]
+    
+    Busqueda --> Filtros[Aplicar Filtros]
+    Busqueda --> DetalleEspacio[📋 Detalle de Espacio]
+    
+    DetalleEspacio --> Reserva[📅 Proceso de Reserva]
+    
+    Reserva --> SeleccionFecha[Seleccionar Fecha/Hora]
+    SeleccionFecha --> Pago[💳 Pasarela de Pago]
+    Pago --> Confirmacion[✅ Confirmación de Reserva]
+    Confirmacion --> Email[📧 Email Confirmación]
+    
+    Login --> PanelUsuario[👤 Panel de Usuario]
+    
+    PanelUsuario --> MisReservas[📑 Mis Reservas]
+    PanelUsuario --> MiPerfil[⚙️ Mi Perfil]
+    PanelUsuario --> MiMembresia[💼 Mi Membresía]
+    PanelUsuario --> Pagos[💰 Historial de Pagos]
+    PanelUsuario --> Facturas[🧾 Mis Facturas]
+    
+    MisReservas --> ModificarReserva[✏️ Modificar Reserva]
+    MisReservas --> CancelarReserva[❌ Cancelar Reserva]
+    MisReservas --> CheckIn[✔️ Check-in Digital]
+    
+    MiMembresia --> UpgradeMembresia[⬆️ Upgrade Membresía]
+    MiMembresia --> RenovarMembresia[🔄 Renovar Membresía]
+    
+    Login --> PanelAdmin[👨‍💼 Panel Administrador]
+    
+    PanelAdmin --> Dashboard[📊 Dashboard]
+    PanelAdmin --> GestionEspacios[🏢 Gestión de Espacios]
+    PanelAdmin --> GestionUsuarios[👥 Gestión de Usuarios]
+    PanelAdmin --> Reportes[📈 Reportes]
+    PanelAdmin --> Configuracion[⚙️ Configuración]
+    
+    GestionEspacios --> CrearEspacio[➕ Crear Espacio]
+    GestionEspacios --> EditarEspacio[✏️ Editar Espacio]
+    GestionEspacios --> EliminarEspacio[🗑️ Desactivar Espacio]
+    
+    GestionUsuarios --> VerUsuarios[👀 Ver Usuarios]
+    GestionUsuarios --> EditarPermisos[🔑 Editar Permisos]
+    GestionUsuarios --> GestionMembresias[💼 Gestión Membresías]
+    
+    Reportes --> ReporteOcupacion[📊 Reporte Ocupación]
+    Reportes --> ReporteIngresos[💵 Reporte Ingresos]
+    Reportes --> ReporteUsuarios[👥 Reporte Usuarios]
+    Reportes --> ExportarReporte[📥 Exportar]
+    
+    Configuracion --> ConfigTarifas[💲 Configurar Tarifas]
+    Configuracion --> ConfigNotif[🔔 Configurar Notificaciones]
+    Configuracion --> ConfigSedes[🏢 Gestionar Sedes]
+    
+    style Home fill:#4A90E2,color:#fff
+    style PanelUsuario fill:#2ECC71,color:#fff
+    style PanelAdmin fill:#E74C3C,color:#fff
+    style Pago fill:#F39C12,color:#fff
+    style Confirmacion fill:#27AE60,color:#fff

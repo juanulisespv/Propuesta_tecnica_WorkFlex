@@ -1,0 +1,85 @@
+graph TB
+    subgraph "Capa de Presentación"
+        UI[Web UI - React]
+        Mobile[Mobile App - Futuro]
+        Admin[Admin Dashboard]
+    end
+    
+    subgraph "Capa de API / Controllers"
+        AuthAPI[Auth Controller]
+        ReservasAPI[Reservas Controller]
+        EspaciosAPI[Espacios Controller]
+        PagosAPI[Pagos Controller]
+        AdminAPI[Admin Controller]
+    end
+    
+    subgraph "Capa de Lógica de Negocio / Services"
+        AuthService[Authentication Service]
+        ReservasService[Reservas Service]
+        EspaciosService[Espacios Service]
+        PagosService[Pagos Service]
+        NotifService[Notificaciones Service]
+        ReportesService[Reportes Service]
+    end
+    
+    subgraph "Capa de Acceso a Datos / Repositories"
+        UserRepo[User Repository]
+        ReservaRepo[Reserva Repository]
+        EspacioRepo[Espacio Repository]
+        PagoRepo[Pago Repository]
+    end
+    
+    subgraph "Capa de Datos"
+        DB[(PostgreSQL<br/>Base de Datos)]
+        Cache[(Redis<br/>Cache)]
+    end
+    
+    subgraph "Servicios Externos"
+        Stripe[Stripe API]
+        Email[SendGrid API]
+        SMS[Twilio API]
+        Storage[S3 Storage]
+    end
+    
+    UI --> AuthAPI
+    UI --> ReservasAPI
+    UI --> EspaciosAPI
+    UI --> PagosAPI
+    Admin --> AdminAPI
+    
+    AuthAPI --> AuthService
+    ReservasAPI --> ReservasService
+    EspaciosAPI --> EspaciosService
+    PagosAPI --> PagosService
+    AdminAPI --> ReportesService
+    
+    AuthService --> UserRepo
+    ReservasService --> ReservaRepo
+    ReservasService --> EspacioRepo
+    ReservasService --> NotifService
+    EspaciosService --> EspacioRepo
+    PagosService --> PagoRepo
+    PagosService --> Stripe
+    NotifService --> Email
+    NotifService --> SMS
+    ReportesService --> ReservaRepo
+    ReportesService --> PagoRepo
+    
+    UserRepo --> DB
+    ReservaRepo --> DB
+    EspacioRepo --> DB
+    PagoRepo --> DB
+    
+    EspacioRepo --> Cache
+    ReservaRepo --> Cache
+    
+    ReportesService --> Storage
+    
+    style UI fill:#4A90E2
+    style Admin fill:#4A90E2
+    style DB fill:#2ECC71
+    style Cache fill:#F39C12
+    style Stripe fill:#E74C3C
+    style Email fill:#E74C3C
+    style SMS fill:#E74C3C
+    style Storage fill:#E74C3C

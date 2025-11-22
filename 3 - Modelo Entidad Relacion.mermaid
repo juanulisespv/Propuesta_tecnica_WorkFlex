@@ -1,0 +1,163 @@
+erDiagram
+    USUARIOS ||--o{ CLIENTES : "es"
+    USUARIOS ||--o{ ADMINISTRADORES : "es"
+    
+    CLIENTES ||--o| MEMBRESIAS : "tiene"
+    CLIENTES ||--o{ RESERVAS : "realiza"
+    CLIENTES ||--o{ PAGOS : "efectua"
+    CLIENTES ||--o{ NOTIFICACIONES : "recibe"
+    
+    SEDES ||--|{ ESPACIOS : "contiene"
+    ESPACIOS ||--o{ RESERVAS : "es_reservado"
+    
+    RESERVAS ||--o| PAGOS : "genera"
+    PAGOS ||--|| FACTURAS : "produce"
+    
+    ADMINISTRADORES ||--o{ REPORTES : "genera"
+    ADMINISTRADORES ||--o{ SEDES : "gestiona"
+    
+    USUARIOS {
+        int id PK
+        string email UK
+        string password_hash
+        string nombre
+        string apellidos
+        string telefono
+        enum rol
+        datetime fecha_registro
+        datetime ultimo_acceso
+        boolean activo
+    }
+    
+    CLIENTES {
+        int id PK
+        int usuario_id FK
+        int creditos_disponibles
+        float saldo_cuenta
+        string preferencias_json
+        datetime ultima_reserva
+    }
+    
+    ADMINISTRADORES {
+        int id PK
+        int usuario_id FK
+        string departamento
+        string permisos_json
+        int sede_asignada_id FK
+    }
+    
+    MEMBRESIAS {
+        int id PK
+        int cliente_id FK
+        enum tipo
+        float precio_mensual
+        int horas_incluidas
+        date fecha_inicio
+        date fecha_vencimiento
+        boolean activa
+        boolean renovacion_automatica
+        datetime created_at
+        datetime updated_at
+    }
+    
+    SEDES {
+        int id PK
+        string nombre
+        string direccion
+        string ciudad
+        string pais
+        string codigo_postal
+        string telefono
+        string email
+        time hora_apertura
+        time hora_cierre
+        string dias_operacion
+        json coordenadas_gps
+        boolean activa
+    }
+    
+    ESPACIOS {
+        int id PK
+        int sede_id FK
+        string nombre
+        string codigo
+        enum tipo
+        int capacidad
+        float precio_por_hora
+        float precio_por_dia
+        string equipamiento_json
+        string descripcion
+        string fotos_json
+        int superficie_m2
+        boolean accesible
+        boolean activo
+    }
+    
+    RESERVAS {
+        int id PK
+        int cliente_id FK
+        int espacio_id FK
+        date fecha_reserva
+        time hora_inicio
+        time hora_fin
+        enum estado
+        float precio_total
+        float descuento_aplicado
+        string motivo_cancelacion
+        datetime fecha_creacion
+        datetime fecha_modificacion
+        datetime checkin_at
+        datetime checkout_at
+    }
+    
+    PAGOS {
+        int id PK
+        int cliente_id FK
+        int reserva_id FK
+        float monto
+        float comision
+        enum metodo_pago
+        enum estado
+        string transaccion_id
+        string pasarela
+        json datos_pago
+        datetime fecha_pago
+        datetime fecha_procesado
+    }
+    
+    FACTURAS {
+        int id PK
+        int pago_id FK
+        string numero_factura UK
+        date fecha_emision
+        float subtotal
+        float iva
+        float total
+        string ruta_pdf
+        boolean enviada
+        datetime fecha_envio
+    }
+    
+    NOTIFICACIONES {
+        int id PK
+        int cliente_id FK
+        enum tipo
+        string titulo
+        string mensaje
+        json datos_adicionales
+        boolean leida
+        datetime fecha_envio
+        datetime fecha_lectura
+    }
+    
+    REPORTES {
+        int id PK
+        int admin_id FK
+        enum tipo_reporte
+        date fecha_desde
+        date fecha_hasta
+        json parametros
+        json resultados
+        string ruta_archivo
+        datetime fecha_generacion
+    }

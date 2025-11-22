@@ -1,0 +1,70 @@
+graph TD
+    Start([Usuario llega a WorkFlex])
+    
+    Start --> A{¿Usuario registrado?}
+    
+    A -->|No| B[Registro]
+    B --> C[Validar email]
+    C --> D[Login exitoso]
+    
+    A -->|Sí| E[Login]
+    E --> D
+    
+    D --> F[Inicio - Dashboard]
+    
+    F --> G[Buscar espacios]
+    
+    G --> H[Aplicar filtros:<br/>Ubicación, Fecha,<br/>Tipo, Capacidad]
+    
+    H --> I[Ver resultados]
+    
+    I --> J{¿Espacio<br/>encontrado?}
+    
+    J -->|No| K[Modificar filtros]
+    K --> H
+    
+    J -->|Sí| L[Ver detalle espacio]
+    
+    L --> M[Seleccionar fecha/hora]
+    
+    M --> N{¿Disponible?}
+    
+    N -->|No| O[Mostrar horarios<br/>alternativos]
+    O --> M
+    
+    N -->|Sí| P[Confirmar reserva]
+    
+    P --> Q{¿Tiene créditos<br/>suficientes?}
+    
+    Q -->|Sí| R[Deducir créditos]
+    R --> S[Reserva confirmada]
+    
+    Q -->|No| T[Seleccionar método<br/>de pago]
+    
+    T --> U[Procesar pago]
+    
+    U --> V{¿Pago<br/>exitoso?}
+    
+    V -->|No| W[Mostrar error]
+    W --> T
+    
+    V -->|Sí| X[Generar factura]
+    X --> S
+    
+    S --> Y[Enviar confirmación<br/>por email]
+    
+    Y --> Z[Mostrar pantalla<br/>de éxito]
+    
+    Z --> AA[Añadir a<br/>'Mis Reservas']
+    
+    AA --> End([Fin del flujo])
+    
+    style Start fill:#4A90E2,color:#fff
+    style End fill:#2ECC71,color:#fff
+    style S fill:#27AE60,color:#fff
+    style W fill:#E74C3C,color:#fff
+    style V fill:#F39C12
+    style N fill:#F39C12
+    style Q fill:#F39C12
+    style J fill:#F39C12
+    style A fill:#F39C12

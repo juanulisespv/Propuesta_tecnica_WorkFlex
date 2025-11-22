@@ -1,0 +1,118 @@
+graph TB
+    subgraph "Clientes"
+        Web[💻 Web App<br/>React + Vite]
+        Mobile[📱 Mobile<br/>React Native<br/>Fase 2]
+        Admin[🖥️ Admin Panel<br/>React]
+    end
+    
+    subgraph "CDN y Assets"
+        CDN[☁️ Cloudflare CDN<br/>Assets estáticos]
+        S3[📦 AWS S3<br/>Imágenes y PDFs]
+    end
+    
+    subgraph "API Gateway & Load Balancer"
+        LB[⚖️ NGINX<br/>Load Balancer]
+        Gateway[🚪 API Gateway<br/>Rate limiting<br/>Authentication]
+    end
+    
+    subgraph "Aplicación Backend - Modular Monolith"
+        direction TB
+        API[🔌 REST API Layer<br/>Express.js / FastAPI]
+        
+        subgraph "Módulos de Negocio"
+            Auth[🔐 Auth Module<br/>JWT + OAuth]
+            Reservas[📅 Reservations Module<br/>Booking logic]
+            Espacios[🏢 Spaces Module<br/>Availability engine]
+            Pagos[💳 Payments Module<br/>Payment orchestration]
+            Notif[📧 Notifications Module<br/>Email/SMS queue]
+            Reports[📊 Reports Module<br/>Analytics engine]
+        end
+        
+        subgraph "Capa de Datos"
+            Repos[📚 Repositories<br/>Data access layer]
+        end
+    end
+    
+    subgraph "Capa de Cache"
+        Redis[(🔴 Redis<br/>Session store<br/>Query cache)]
+    end
+    
+    subgraph "Base de Datos"
+        Postgres[(🐘 PostgreSQL<br/>Master DB)]
+        PG_Read[(🐘 PostgreSQL<br/>Read Replica<br/>Fase 2)]
+    end
+    
+    subgraph "Message Queue Fase 2"
+        Queue[📨 RabbitMQ/SQS<br/>Async tasks]
+    end
+    
+    subgraph "Servicios Externos"
+        Stripe[💳 Stripe API<br/>Payment processing]
+        SendGrid[📧 SendGrid<br/>Transactional email]
+        Twilio[📱 Twilio<br/>SMS notifications]
+        Maps[🗺️ Google Maps API<br/>Geolocation]
+    end
+    
+    subgraph "Monitoring & Logging"
+        Logger[📝 Winston/Pino<br/>Application logs]
+        Monitor[📈 Prometheus + Grafana<br/>Metrics & alerts]
+        Sentry[🐛 Sentry<br/>Error tracking]
+    end
+    
+    subgraph "CI/CD Pipeline"
+        GitHub[🐙 GitHub<br/>Source control]
+        Actions[⚙️ GitHub Actions<br/>CI/CD]
+        Docker[🐳 Docker<br/>Containerization]
+    end
+    
+    Web --> CDN
+    Admin --> CDN
+    Web --> LB
+    Mobile --> LB
+    Admin --> LB
+    
+    CDN --> S3
+    
+    LB --> Gateway
+    Gateway --> API
+    
+    API --> Auth
+    API --> Reservas
+    API --> Espacios
+    API --> Pagos
+    API --> Notif
+    API --> Reports
+    
+    Auth --> Repos
+    Reservas --> Repos
+    Espacios --> Repos
+    Pagos --> Repos
+    Notif --> Queue
+    Reports --> Repos
+    
+    Repos --> Redis
+    Repos --> Postgres
+    
+    Postgres -.->|Replicación| PG_Read
+    Reports --> PG_Read
+    
+    Pagos --> Stripe
+    Notif --> SendGrid
+    Notif --> Twilio
+    Espacios --> Maps
+    
+    API --> Logger
+    API --> Monitor
+    API --> Sentry
+    
+    GitHub --> Actions
+    Actions --> Docker
+    Docker --> API
+    
+    style Web fill:#4A90E2
+    style Admin fill:#4A90E2
+    style API fill:#2ECC71
+    style Postgres fill:#336791
+    style Redis fill:#DC382D
+    style Stripe fill:#635BFF
+    style Gateway fill:#FF6B6B

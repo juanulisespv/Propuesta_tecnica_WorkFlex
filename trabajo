@@ -1,0 +1,816 @@
+
+Contexto y encargo del cliente
+
+Empresa: WorkFlex – Espacios de Coworking Inteligentes
+Contacto: Departamento de Innovación y Tecnología
+
+WorkFlex es una empresa que gestiona espacios de coworking en diferentes ciudades y busca mejorar la experiencia de sus clientes mediante una plataforma digital de reservas y gestión de espacios. Actualmente, la gestión se realiza mediante hojas de cálculo y correo electrónico, lo que genera errores en la disponibilidad, sobrecarga administrativa y falta de trazabilidad en el uso de las instalaciones.
+
+La dirección de la empresa ha identificado la necesidad de un sistema centralizado que permita a los usuarios:
+
+Reservar espacios de trabajo en cualquier sede de WorkFlex.
+Gestionar membresías y accesos según el tipo de usuario.
+Administrar facturación y pagos en línea.
+Obtener reportes y estadísticas sobre la ocupación de espacios.
+Como desarrollador avanzado de software, con responsabilidad en el diseño arquitectónico de la solución, se te encarga la propuesta de diseño de la aplicación, incluyendo el análisis del problema, la metodología de trabajo y los modelos que sustentarán el desarrollo.
+
+ 
+
+Requisitos de la propuesta
+
+La propuesta debe incluir los siguientes aspectos:
+
+1. Análisis del problema y gestión de requisitos
+
+Identificar requisitos funcionales (qué debe hacer el sistema) y no funcionales (rendimiento, seguridad, escalabilidad).
+Técnicas utilizadas para la captura de requisitos (entrevistas, user stories, casos de uso).
+Justificación del modelo de gestión de proyecto:
+¿Se debe aplicar un modelo de desarrollo tradicional (en cascada, incremental) o ágil (Scrum, Kanban)?
+Argumentar la elección en función de la naturaleza del proyecto y los requerimientos del cliente.
+
+
+2. Modelado del sistema con UML
+
+Diagrama de clases: Definir las entidades clave y sus relaciones.
+Diagrama de casos de uso: Representar las interacciones entre los usuarios y el sistema.
+Diagrama de secuencia: Ilustrar el flujo de interacción en una reserva.
+3. Modelado conceptual de la solución
+
+Propuesta estructurada del modelo de datos, identificando entidades principales y su relación.
+Identificación de jerarquías y patrones de diseño a emplear (por ejemplo, MVC, Singleton, Factory).
+Explicación del enfoque de herencia vs. composición en el diseño de las entidades.
+4. Estrategia de prototipado y mockups
+
+Herramientas y métodos para la creación de prototipos de la interfaz.
+Diseño preliminar de la GUI con un wireframe para visualizar la navegación del usuario.
+Explicación de la experiencia de usuario esperada.
+5. Diseño de la arquitectura y estrategia de APIs
+
+Arquitectura del sistema: Monolítico, microservicios o híbrido.
+Justificación del uso o no de APIs para la integración con terceros (pagos, autenticación, reportes).
+Definición de endpoints clave si se propone una API REST (sin necesidad de implementarla).
+ 
+
+Entregables esperados
+
+El estudiante debe presentar un documento estructurado con los siguientes apartados:
+
+Introducción: Resumen del problema y objetivos de la solución.
+Análisis de requisitos: Funcionales, no funcionales y técnica de captura.
+Modelo de gestión del proyecto: Justificación de la metodología elegida.
+Modelado UML: Diagramas de clases, casos de uso y secuencia.
+Modelado conceptual del sistema: Estructura de datos y patrones empleados.
+Diseño de prototipos y mockups: Wireframes y estrategia de interfaz.
+Arquitectura del sistema y APIs: Enfoque arquitectónico y posible uso de APIs.
+Formato de entrega
+
+Documento en PDF, con esquemas y gráficos explicativos.
+Diagramas UML pueden realizarse en herramientas como Lucidchart, Draw.io o similares.
+Wireframes pueden ser hechos en papel escaneado.
+ 
+
+Aspectos importantes para la evaluación;
+
+Claridad y profundidad en el análisis de requisitos y justificación de decisiones.
+Correcta aplicación de UML para modelar la solución.
+Coherencia en la elección de arquitectura y patrones de diseño.
+Propuesta de prototipado bien fundamentada y alineada con los requisitos.
+Estructura y presentación del documento con esquemas bien explicados.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1. Portada
+2. Índice
+3. Introducción (resumen ejecutivo del problema)
+4. Análisis de Requisitos
+   4.1. Requisitos Funcionales
+   4.2. Requisitos No Funcionales
+   4.3. Técnicas de Captura
+   4.4. Modelo de Gestión: Scrum
+5. Modelado UML
+   5.1. Diagrama de Casos de Uso
+   5.2. Diagrama de Clases
+   5.3. Diagrama de Secuencia
+6. Modelado Conceptual
+   6.1. Modelo de Datos
+   6.2. Patrones de Diseño
+   6.3. Arquitectura en Capas
+7. Prototipado
+   7.1. Estrategia de Prototipado
+   7.2. Wireframes
+   7.3. Mapa de Navegación
+   7.4. Experiencia de Usuario
+8. Arquitectura y APIs
+   8.1. Decisión Arquitectónica
+   8.2. Stack Tecnológico
+   8.3. Endpoints REST
+   8.4. Integraciones Externas
+9. Conclusiones
+10. Referencias
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1. ANÁLISIS DE REQUISITOS
+1.1 Requisitos Funcionales (RF)
+Los requisitos funcionales describen QUÉ debe hacer el sistema:
+RF1: Gestión de Usuarios
+RF1.1: Registro de nuevos usuarios con validación de datos
+RF1.2: Autenticación y autorización según roles (usuario básico, premium, administrador)
+RF1.3: Gestión de perfiles de usuario (editar datos, foto, preferencias)
+RF1.4: Recuperación de contraseña
+RF2: Gestión de Espacios
+RF2.1: Catálogo de espacios disponibles por sede (oficinas privadas, salas de reuniones, puestos compartidos)
+RF2.2: Visualización de disponibilidad en tiempo real
+RF2.3: Filtrado de espacios por ubicación, capacidad, equipamiento y precio
+RF2.4: Descripción detallada de cada espacio (fotos, capacidad, servicios incluidos)
+RF3: Sistema de Reservas
+RF3.1: Reservar espacios seleccionando fecha, hora y duración
+RF3.2: Modificar reservas existentes (según políticas)
+RF3.3: Cancelar reservas con gestión de políticas de cancelación
+RF3.4: Historial de reservas del usuario
+RF3.5: Confirmación automática por email/SMS
+RF3.6: Check-in y check-out digital
+RF4: Gestión de Membresías
+RF4.1: Tipos de membresía (básica, profesional, empresarial)
+RF4.2: Asignación de privilegios según membresía (horas incluidas, descuentos, acceso prioritario)
+RF4.3: Renovación y upgrade de membresías
+RF4.4: Control de créditos/horas disponibles
+RF5: Sistema de Facturación y Pagos
+RF5.1: Generación automática de facturas
+RF5.2: Integración con pasarelas de pago (tarjeta, PayPal, transferencia)
+RF5.3: Historial de pagos y facturas descargables
+RF5.4: Gestión de métodos de pago guardados
+RF5.5: Alertas de pagos pendientes
+RF6: Reportes y Estadísticas
+RF6.1: Dashboard administrativo con métricas clave
+RF6.2: Reportes de ocupación por espacio/sede/periodo
+RF6.3: Estadísticas de ingresos
+RF6.4: Análisis de usuarios más activos
+RF6.5: Exportación de reportes (PDF, Excel)
+RF7: Notificaciones
+RF7.1: Recordatorios de reservas próximas
+RF7.2: Alertas de cambios en disponibilidad
+RF7.3: Notificaciones de vencimiento de membresía
+RF7.4: Comunicados generales de la empresa
+
+1.2 Requisitos No Funcionales (RNF)
+Los requisitos no funcionales describen CÓMO debe funcionar el sistema:
+RNF1: Rendimiento
+RNF1.1: Tiempo de respuesta < 2 segundos para consultas de disponibilidad
+RNF1.2: Soportar al menos 1000 usuarios concurrent
+RNF1.3: Procesar reservas en < 1 segundo
+RNF1.4: Base de datos optimizada para consultas frecuentes
+RNF2: Escalabilidad
+RNF2.1: Arquitectura preparada para crecer (por ejemplo a 10 o 20 sedes)
+RNF2.2: Diseño modular que permita añadir funcionalidades
+RNF3: Seguridad
+RNF3.1: Encriptación de datos sensibles (contraseñas, datos de pago)
+RNF3.2: Cumplimiento con RGPD y protección de datos
+RNF3.3: Autenticación mediante tokens JWT
+RNF3.4: Auditoría de accesos y cambios críticos
+RNF3.5: Integración con proveedores PCI-DSS para pagos
+
+
+RNF4: Disponibilidad
+RNF4.1: Que el sistema esté online  el 99.5% del tiempo (máximo 3.6 horas downtime/mes)
+RNF4.2: Realizar backups automáticos diarios.
+RNF4.3: Plan para recuperación de la app en caso de fallo.
+RNF5: Usabilidad
+RNF5.1: Interfaz intuitiva sin necesidad de capacitación
+RNF5.2: Diseño responsive (móvil, tablet, escritorio)
+RNF5.3: Accesibilidad WCAG 2.1 nivel AA
+RNF6: Mantenibilidad
+RNF6.1: Código documentado y siguiendo estándares
+RNF6.2: Arquitectura desacoplada para facilitar cambios
+RNF6.3: Testing automatizado (cobertura > 80%)
+RNF7: Compatibilidad
+RNF7.1: Funcionar en navegadores modernos (Chrome, Firefox, Safari, Edge)
+RNF7.2: APIs REST estándar para integraciones futuras
+
+
+
+
+1.3 Técnicas de Captura de Requisitos
+Para este proyecto, se propone la combinación de diferentes técnicas para recabar la máxima información: 
+1. Entrevistas con las personas involucradas con el coworking
+Con quién: Departamento de Innovación, administradores de sedes, usuarios frecuentes
+Objetivo: Entender problemas actuales, expectativas y puntos críticos
+Ventaja: Información profunda y contextualizada
+Resultado esperado: Lista priorizada de necesidades
+2. User Stories (Historias de Usuario)
+Formato Scrum: "Como [rol], quiero [acción] para [beneficio]"
+Ejemplos:
+Como usuario freelance, quiero reservar una sala de reuniones para presentar mi proyecto a un cliente
+Como administrador, quiero ver un dashboard de ocupación para optimizar espacios infrautilizados
+Ventaja: Enfoque centrado en el usuario y valor de negocio
+3. Casos de Uso
+Descripción formal de interacciones sistema-usuario
+Incluye: Actores, precondiciones, flujo principal, flujos alternativos, postcondiciones
+Ejemplo: "Realizar una reserva de espacio"
+Ventaja: Detalle técnico para implementación
+4. Observación del proceso actual
+Qué observar: Cómo gestionan actualmente reservas con Excel y email
+Objetivo: Identificar cuellos de botella y errores frecuentes
+Ventaja: Descubrir requisitos implícitos
+
+También sería muy útil hacer un análisis de la competencia, debido a que ya existen aplicaciones similares, se podría hacer una investigación de las funcionalidades de estos programas y comprobar qué características pueden ser útiles y cuáles no. Por ejemplo, un par de plataformas similares son WeWork (www.wework.com) o Spaces (www.spacesworks.com). De esta forma se pueden identificar las prácticas que más nos interesen y que ofrecen otras aplicaciones.
+
+
+
+1.4 Priorización de Requisitos (MoSCoW)
+Categoría
+Requisitos
+Must Have
+RF3 (Reservas), RF2 (Espacios), RF1 (Usuarios), RNF3 (Seguridad)
+Should Have
+RF5 (Pagos), RF4 (Membresías), RNF1 (Rendimiento)
+Could Have
+RF6 (Reportes avanzados), RF7 (Notificaciones push)
+Won't Have
+Integración con IoT, app móvil nativa (fase 1)
+
+
+2. MODELO DE GESTIÓN DEL PROYECTO
+2.1 Metodología Elegida: SCRUM (Ágil)
+2.2 Justificación de la Elección
+¿Por qué SCRUM y no Cascada?
+Argumentos a favor de metodología ágil:
+Requisitos evolutivos: WorkFlex está en transformación digital. Es probable que surjan nuevas necesidades durante el desarrollo al interactuar con usuarios reales.
+Entrega de valor temprana: Con Scrum podemos entregar un MVP (Producto Mínimo Viable) en 2-3 sprints con funcionalidad básica de reservas, y luego iterar.
+Feedback continuo: El cliente puede probar incrementos cada 2 semanas y ajustar prioridades.
+Reducción de riesgo: En lugar de invertir 6 meses en un desarrollo completo que podría no cumplir expectativas, validamos hipótesis constantemente.
+Flexibilidad ante cambios: Si WorkFlex decide añadir integración con control de accesos físico, podemos incorporarlo sin replantear todo el proyecto.
+Naturaleza del producto: Es una plataforma digital donde la experiencia de usuario es crítica. Necesitamos iteración y ajuste basado en uso real.
+Por qué descartamos Cascada:
+No hay requisitos 100% cerrados desde el inicio
+El cliente viene de un sistema manual; no tiene claro todas las funcionalidades necesarias
+Alto riesgo de que el producto final no cumpla expectativas reales
+Menor capacidad de respuesta ante cambios de mercado
+
+2.3 Implementación de SCRUM en este proyecto
+Roles
+Product Owner: Departamento de Innovación de WorkFlex
+Scrum Master: Líder técnico del equipo de desarrollo
+Development Team: 4-6 desarrolladores (frontend, backend, UX/UI, QA)
+Sprints propuestos
+Duración: 2 semanas
+Sprint 0 (Setup): Arquitectura base, infraestructura, CI/CD
+Sprint 1-2: MVP con login, catálogo de espacios y reserva básica
+Sprint 3-4: Sistema de membresías y gestión de usuarios
+Sprint 5-6: Integración de pagos y facturación
+Sprint 7-8: Dashboard administrativo y reportes
+Sprint 9: Testing, optimización y deployment
+Reuniones y eventos clave
+Daily Standup: 15 min diarios
+Sprint Planning: Inicio de cada sprint (4h)
+Sprint Review: Demo al cliente cada 2 semanas
+Sprint Retrospective: Mejora continua del equipo
+Artefactos
+Product Backlog: Lista priorizada de user stories
+Sprint Backlog: Trabajo comprometido para el sprint actual
+Increment: Software funcionando al final de cada sprint
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2. MODELADO DEL SISTEMA CON UML
+2.1 Diagrama de Casos de Uso
+Este diagrama muestra las principales interacciones entre actores y el sistema.
+
+Descripción de Actores:
+Usuario Cliente:
+Persona que utiliza los espacios de coworking
+Puede tener diferentes tipos de membresía
+Interactúa con funcionalidades de reserva y pago
+Administrador:
+Personal de WorkFlex que gestiona el sistema
+Accede a funciones administrativas y reportes
+Configura espacios, tarifas y usuarios
+
+
+
+2.2 Diagrama de Clases
+Este diagrama define las entidades principales y sus relaciones.
+
+
+
+
+
+
+
+
+
+
+
+
+Explicación de las relaciones principales:
+Herencia (Generalización):
+Usuario es la clase padre
+Cliente y Administrador heredan de Usuario (especialización)
+
+Asociaciones importantes:
+Cliente - Reserva (1:N): Un cliente puede tener múltiples reservas
+Sede - Espacio (1:N): Una sede contiene varios espacios
+Espacio - Reserva (1:N): Un espacio puede tener múltiples reservas
+Reserva - Pago (1:0..1): Una reserva puede generar un pago (opcional si usa créditos)
+Pago - Factura (1:1): Cada pago genera exactamente una factura
+Multiplicidades clave:
+0..1: Opcional (ej: Cliente puede no tener Membresía)
+1: Obligatorio único
+0..* o *: Cero o muchos
+
+2.3 Diagrama de Secuencia: Flujo de Reserva
+Este diagrama ilustra la interacción temporal para realizar una reserva.
+Diagrama de Secuencia - Realizar Reserva
+Diagrama 
+Explicación del flujo:
+Fase 1: Autenticación (líneas 1-7)
+El cliente debe estar autenticado antes de reservar
+Se verifica el token de sesión en la base de datos
+Fase 2: Búsqueda de Espacios (líneas 9-14)
+El cliente filtra espacios por criterios
+El sistema consulta espacios disponibles en la BD
+Fase 3: Verificación de Disponibilidad (líneas 16-20)
+Se verifica en tiempo real si el horario está libre
+Manejo de caso alternativo si no está disponible
+Fase 4: Creación de Reserva (líneas 22-29)
+Se crea la reserva con estado PENDIENTE
+Se bloquea el horario temporalmente
+Fase 5: Procesamiento de Pago (líneas 31-52)
+Ruta A: Cliente con créditos → Confirmación inmediata
+Ruta B: Requiere pago → Integración con pasarela externa
+Si pago exitoso → Reserva confirmada + Factura
+Si pago falla → Reserva cancelada + Horario liberado
+Fase 6: Notificación (líneas 54-58)
+Se envía email de confirmación
+Se muestra respuesta al cliente
+
+Análisis de Patrones en los Diagramas
+Patrones de Diseño Identificables:
+Repository Pattern (implícito en Diagrama de Secuencia):
+Las consultas a BD se abstraen en servicios específicos
+Separación entre lógica de negocio y acceso a datos
+Service Layer (visible en Secuencia):
+Servicio Reservas, Servicio Espacios, Servicio Pagos
+Encapsulan lógica de negocio compleja
+Observer Pattern (en Notificaciones):
+El sistema notifica cambios de estado a los usuarios
+Strategy Pattern (en Pagos):
+Diferentes métodos de pago (tarjeta, PayPal) implementan misma interfaz
+State Pattern (en Reserva y Pago):
+Las enumeraciones EstadoReserva y EstadoPago gestionan transiciones de estado
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3. MODELADO CONCEPTUAL DE LA SOLUCIÓN
+3.1 Modelo de Datos Relacional
+Primero, voy a proponer el modelo entidad-relación que sustentará la base de datos:
+Modelo Entidad-Relación - WorkFlex
+Diagrama 
+Decisiones de Diseño del Modelo:
+1. Separación Usuario-Cliente-Administrador:
+Patrón Class Table Inheritance: Una tabla para USUARIOS (datos comunes) y tablas separadas para CLIENTES y ADMINISTRADORES (datos específicos)
+Ventaja: Evita columnas NULL innecesarias y facilita consultas específicas por rol
+Alternativa descartada: Single Table Inheritance (todos en una tabla con columnas NULL)
+2. Campos JSON para flexibilidad:
+equipamiento_json en ESPACIOS: Lista de equipos que puede variar
+preferencias_json en CLIENTES: Preferencias de usuario extensibles sin alterar esquema
+datos_adicionales en NOTIFICACIONES: Metadatos variables según tipo de notificación
+3. Auditoría temporal:
+Campos created_at, updated_at, fecha_modificacion para trazabilidad
+checkin_at, checkout_at en RESERVAS para control de uso real
+4. Soft deletes:
+Campo activo en vez de eliminar registros
+Mantiene integridad histórica y cumplimiento legal
+
+3.2 Patrones de Diseño Aplicados
+Voy a detallar los patrones de diseño que emplearemos en la arquitectura:
+Patrones de Diseño - WorkFlex
+Documento 
+# Patrones de Diseño en WorkFlex ## 1. Patrones Creacionales ### 1.1 Factory Method - Creación de Notificaciones **Problema**: Diferentes tipos de notificaciones (email, SMS, push) con lógica de creación distinta. **Solución**: ``` NotificacionFac
+
+3.3 Herencia vs Composición: Análisis de Decisiones
+Voy a analizar casos específicos donde elegimos entre herencia y composición:
+Caso 1: Usuario → Cliente / Administrador
+✅ Decisión: HERENCIA
+Justificación:
+Relación clara de "es-un" (Cliente ES UN Usuario, Administrador ES UN Usuario)
+Comportamiento compartido significativo (autenticación, gestión de perfil)
+Especialización natural con atributos únicos
+Usuario (clase base)
+├── Cliente (especialización)
+│   └── Atributos únicos: creditosDisponibles, historialReservas
+└── Administrador (especialización)
+    └── Atributos únicos: permisos, departamento
+
+Caso 2: Procesamiento de Pagos
+✅ Decisión: COMPOSICIÓN (Strategy Pattern)
+Justificación:
+NO es relación "es-un" (Un pago NO ES una pasarela)
+Comportamiento intercambiable en runtime
+Evita jerarquías rígidas
+❌ MAL (Herencia):
+Pago
+├── PagoStripe
+├── PagoPayPal
+└── PagoRedsys
+
+✅ BIEN (Composición):
+class Pago {
+  private PasarelaPago pasarela; // Composición
+  
+  procesar() {
+    pasarela.procesar(this.monto);
+  }
+}
+Ventaja: Puedo cambiar la pasarela sin crear nuevas clases de Pago.
+
+Caso 3: Cálculo de Precio con Descuentos
+✅ Decisión: COMPOSICIÓN (Decorator Pattern)
+Justificación:
+Combinaciones múltiples y dinámicas de descuentos
+Herencia crearía explosión de clases (PrecioConDescuentoMembresia, PrecioConDescuentoMembresiaYPromocion, etc.)
+❌ MAL (Herencia):
+Precio
+├── PrecioConDescuentoMembresia
+├── PrecioConDescuentoPromocion
+├── PrecioConDescuentoMembresiaYPromocion (¡combinaciones infinitas!)
+└── PrecioConDescuentoMembresiaYPromocionYVolumen
+
+✅ BIEN (Composición con Decorator):
+precioFinal = new DescuentoVolumen(
+  new DescuentoPromocion(
+    new DescuentoMembresia(
+      new PrecioBase(100)
+    )
+  )
+);
+
+Caso 4: Espacios y sus Tipos
+✅ Decisión: HERENCIA + Enumeración (híbrido)
+Justificación:
+Los tipos de espacio comparten el 95% del comportamiento
+Diferencias son principalmente de datos, no comportamiento
+✅ Implementación elegida:
+class Espacio {
+  TipoEspacio tipo; // PUESTO_COMPARTIDO, OFICINA_PRIVADA, SALA_REUNIONES
+  // Todos los atributos comunes
+}
+
+// No crear subclases innecesarias:
+❌ class PuestoCompartido extends Espacio
+❌ class OficinaPrivada extends Espacio
+Ventaja: Evita over-engineering. Si los tipos tuvieran comportamientos muy diferentes (ej: salas con equipos audiovisuales que requieren configuración especial), reconsideraríamos herencia.
+
+3.4 Diagrama de Arquitectura en Capas
+Arquitectura en Capas - WorkFlex
+Diagrama 
+Explicación de la Arquitectura en Capas:
+1. Capa de Presentación
+Interfaz de usuario (React SPA)
+Dashboard administrativo
+Comunicación vía HTTP/REST con API
+2. Capa de API (Controllers)
+Punto de entrada HTTP
+Validación básica de inputs
+Orquestación de llamadas a services
+Manejo de autenticación/autorización (JWT)
+3. Capa de Lógica de Negocio (Services)
+Reglas de negocio: Validación de disponibilidad, cálculo de precios, gestión de estados
+Transaccionalidad: Operaciones complejas (reserva + pago + notificación)
+Coordinación: Entre múltiples repositories y servicios externos
+4. Capa de Acceso a Datos (Repositories)
+Abstracción de persistencia
+Queries optimizadas
+Gestión de cache (Redis para consultas frecuentes)
+5. Capa de Datos
+PostgreSQL: Datos relacionales principales
+Redis: Cache de consultas frecuentes (disponibilidad de espacios)
+6. Servicios Externos
+Stripe: Procesamiento de pagos
+SendGrid: Envío de emails
+Twilio: Envío de SMS
+S3: Almacenamiento de facturas y fotos
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4. ESTRATEGIA DE PROTOTIPADO Y MOCKUPS
+4.1 Metodología de Prototipado
+Enfoque Elegido: Prototipado Iterativo de Baja a Alta Fidelidad
+Fases del proceso:
+Sketches en papel (1-2 días)
+Bocetos rápidos de flujos principales
+Validación de conceptos con stakeholders
+Muy económico para iteraciones rápidas
+Wireframes de baja fidelidad (3-5 días)
+Estructura y jerarquía de información
+Navegación entre pantallas
+Sin colores ni estilos finales
+Wireframes de media fidelidad (5-7 días)
+Contenido real o representativo
+Interacciones básicas
+Testing con usuarios
+Mockups de alta fidelidad (7-10 días)
+Diseño visual completo
+Brand identity aplicada
+Preparados para desarrollo
+Prototipo interactivo (5 días)
+Simulación de flujos completos
+Testing de usabilidad
+Validación antes de desarrollo
+
+4.2 Herramientas Propuestas
+Fase
+Herramienta
+Justificación
+Sketches
+Papel y lápiz
+Máxima velocidad, cero fricción tecnológica
+Wireframes
+Figma / Balsamiq
+Colaboración en tiempo real, componentes reutilizables
+Mockups
+Figma
+Diseño profesional, sistema de componentes, handoff a desarrollo
+Prototipo
+Figma Interactive
+Simulación de interacciones sin código
+Testing
+Maze / UserTesting
+Validación con usuarios reales, métricas cuantitativas
+
+Elección principal: FIGMA
+✅ Colaboración en tiempo real
+✅ Componentes y design system
+✅ Prototipado interactivo integrado
+✅ Handoff automático a desarrollo
+✅ Versión gratuita robusta
+
+4.3 Principios de Diseño UX/UI
+Principios de Experiencia de Usuario:
+Claridad sobre originalidad
+Interfaz intuitiva antes que innovadora
+Usuarios deben completar tareas sin instrucciones
+Consistencia
+Patrones repetibles (botones, formularios, navegación)
+Design system coherente
+Feedback inmediato
+Loading indicators
+Confirmaciones visuales de acciones
+Mensajes de error claros
+Prevención de errores
+Validación en tiempo real
+Confirmaciones para acciones destructivas
+Defaults inteligentes
+Accesibilidad (WCAG 2.1 AA)
+Contraste mínimo 4.5:1
+Navegación por teclado
+Textos alternativos en imágenes
+Mobile First
+Diseño desde dispositivos móviles hacia desktop
+Touch targets mínimo 44x44px
+
+4.4 Wireframes de Baja Fidelidad
+Voy a crear wireframes para las pantallas principales:
+Wireframes WorkFlex - Pantallas Principales
+Artefacto interactivo 
+
+4.5 Mapa de Navegación (Site Map)
+Mapa de Navegación - WorkFlex
+Diagrama 
+
+4.6 Flujos de Usuario (User Flows)
+Voy a documentar los flujos principales:
+Flujos de Usuario - WorkFlex
+Diagrama 
+
+4.7 Experiencia de Usuario (UX) Esperada
+Journey Map del Usuario Principal (Freelancer)
+Persona: María, 32 años, diseñadora freelance
+Fase
+Acción
+Pensamiento
+Emoción
+Oportunidades
+Descubrimiento
+Busca en Google "coworking bilbao"
+"Necesito un espacio profesional para reunión con cliente mañana"
+😟 Ansiosa
+SEO optimizado, anuncios Google Ads
+Exploración
+Navega por WorkFlex, ve opciones
+"Tienen buena pinta, precios claros"
+🙂 Interesada
+Fotos de calidad, info transparente
+Evaluación
+Compara espacios, lee descripciones
+"¿Tendrá proyector? ¿Está cerca del metro?"
+🤔 Dudosa
+Filtros detallados, mapas, amenidades claras
+Decisión
+Selecciona sala, verifica disponibilidad
+"Perfecto, está libre mañana 10-12h"
+😊 Satisfecha
+Disponibilidad en tiempo real
+Acción
+Completa reserva y pago
+"El pago es seguro, proceso rápido"
+😌 Confiada
+Checkout simplificado, badges de seguridad
+Post-compra
+Recibe confirmación, guarda en calendario
+"Genial, ya está todo listo"
+😄 Feliz
+Email con detalles, añadir a calendario
+Uso
+Llega al espacio, hace check-in
+"Fácil de encontrar, todo como esperaba"
+😊 Satisfecha
+Check-in digital, soporte in-situ
+Fidelización
+Valora experiencia, considera membresía
+"Me gustó, lo usaré más seguido"
+🤩 Encantada
+Programa de referidos, descuentos por membresía
+
+
+4.8 Principios de Diseño Visual
+Sistema de Diseño (Design System) Propuesto:
+Paleta de Colores:
+Primario:   #4A90E2 (Azul profesional - Confianza)
+Secundario: #2ECC71 (Verde - Confirmación/Éxito)
+Acento:     #F39C12 (Naranja - CTAs secundarios)
+Error:      #E74C3C (Rojo - Errores/Cancelaciones)
+Neutro:     #ECF0F1 (Gris claro - Fondos)
+Texto:      #2C3E50 (Gris oscuro - Legibilidad)
+Tipografía:
+Headings: Inter Bold (32px/24px/18px)
+Body:     Inter Regular (16px)
+Captions: Inter Light (14px)
+Espaciado (Grid de 8px):
+xs: 8px
+sm: 16px
+md: 24px
+lg: 32px
+xl: 48px
+Componentes Reutilizables:
+Botones (3 variantes: Primary, Secondary, Ghost)
+Cards (Espacio, Reserva, Estadística)
+Formularios (Input, Select, Textarea, Checkbox)
+Modales (Confirmación, Alerta, Formulario)
+Navegación (Header, Sidebar, Breadcrumbs)
+Tablas (Responsivas, con ordenamiento y filtros)
+
+4.9 Testing y Validación del Prototipo
+Plan de Testing UX:
+Testing de Usabilidad (5-8 usuarios)
+Tareas: "Reserva una sala de reuniones para mañana"
+Métricas: Tiempo de completado, tasa de error, satisfacción (SUS)
+Herramienta: Maze.design o UserTesting.com
+A/B Testing (después del MVP)
+Versión A: Checkout en 3 pasos
+Versión B: Checkout en página única
+Métrica clave: Tasa de conversión
+Heatmaps y Grabaciones
+Herramienta: Hotjar
+Objetivo: Identificar fricciones en el flujo
+Feedback Cualitativo
+Entrevistas post-uso (15 min)
+Encuestas NPS (Net Promoter Score)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

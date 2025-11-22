@@ -1,0 +1,85 @@
+sequenceDiagram
+    actor Cliente
+    participant UI as Interfaz Web
+    participant Auth as Servicio Autenticación
+    participant Reservas as Servicio Reservas
+    participant Espacios as Servicio Espacios
+    participant Pagos as Servicio Pagos
+    participant Email as Servicio Email
+    participant DB as Base de Datos
+    
+    Cliente->>UI: Accede al sistema
+    UI->>Auth: Verificar sesión
+    Auth->>DB: Validar token
+    DB-->>Auth: Token válido
+    Auth-->>UI: Usuario autenticado
+    
+    Cliente->>UI: Busca espacio (sede, fecha, capacidad)
+    UI->>Espacios: buscarEspacios(filtros)
+    Espacios->>DB: SELECT espacios WHERE...
+    DB-->>Espacios: Lista de espacios
+    Espacios-->>UI: Espacios disponibles
+    UI-->>Cliente: Muestra resultados
+    
+    Cliente->>UI: Selecciona espacio y horario
+    UI->>Espacios: verificarDisponibilidad(espacioId, fecha, hora)
+    Espacios->>DB: Check disponibilidad
+    
+    alt Espacio disponible
+        DB-->>Espacios: Disponible
+        Espacios-->>UI: OK - Disponible
+        UI-->>Cliente: Confirma disponibilidad
+        
+        Cliente->>UI: Confirma reserva
+        UI->>Reservas: crearReserva(clienteId, espacioId, fecha, hora)
+        Reservas->>DB: INSERT reserva (estado: PENDIENTE)
+        DB-->>Reservas: Reserva creada (ID: 12345)
+        
+        Reservas->>Espacios: bloquearHorario(espacioId, fecha, hora)
+        Espacios->>DB: UPDATE disponibilidad
+        DB-->>Espacios: Horario bloqueado
+        
+        Reservas->>Reservas: calcularCosto()
+        
+        alt Cliente con créditos suficientes
+            Reservas->>DB: Deducir créditos cliente
+            DB-->>Reservas: Créditos deducidos
+            Reservas->>DB: UPDATE reserva (estado: CONFIRMADA)
+            DB-->>Reservas: Reserva confirmada
+            
+        else Requiere pago
+            Reservas->>Pagos: iniciarPago(reservaId, monto)
+            Pagos->>Pagos: Redirigir a pasarela
+            Cliente->>Pagos: Ingresa datos de pago
+            Pagos->>Pagos: Procesar pago (API externa)
+            
+            alt Pago exitoso
+                Pagos->>DB: INSERT pago (estado: COMPLETADO)
+                DB-->>Pagos: Pago registrado
+                Pagos->>Reservas: pagoCompletado(reservaId)
+                Reservas->>DB: UPDATE reserva (estado: CONFIRMADA)
+                DB-->>Reservas: Reserva confirmada
+                Pagos->>Pagos: generarFactura()
+                
+            else Pago fallido
+                Pagos->>DB: INSERT pago (estado: FALLIDO)
+                Pagos->>Reservas: pagoFallido(reservaId)
+                Reservas->>DB: UPDATE reserva (estado: CANCELADA)
+                Reservas->>Espacios: liberarHorario(espacioId, fecha, hora)
+                Espacios->>DB: UPDATE disponibilidad
+                Pagos-->>UI: Error en pago
+                UI-->>Cliente: Muestra error
+            end
+        end
+        
+        Reservas->>Email: enviarConfirmacion(clienteEmail, reservaId)
+        Email-->>Cliente: Email confirmación
+        
+        Reservas-->>UI: Reserva exitosa
+        UI-->>Cliente: Muestra confirmación + detalles
+        
+    else Espacio no disponible
+        DB-->>Espacios: No disponible
+        Espacios-->>UI: Espacio ocupado
+        UI-->>Cliente: Sugiere otros horarios
+    end

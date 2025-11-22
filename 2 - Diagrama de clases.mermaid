@@ -1,0 +1,194 @@
+classDiagram
+    class Usuario {
+        -int id
+        -String nombre
+        -String email
+        -String password
+        -String telefono
+        -Date fechaRegistro
+        -TipoUsuario rol
+        +registrarse()
+        +iniciarSesion()
+        +actualizarPerfil()
+        +recuperarPassword()
+    }
+    
+    class Cliente {
+        -int creditosDisponibles
+        -Date ultimoAcceso
+        +realizarReserva()
+        +cancelarReserva()
+        +consultarHistorial()
+        +realizarCheckIn()
+    }
+    
+    class Administrador {
+        -String departamento
+        -List~String~ permisos
+        +gestionarEspacios()
+        +generarReportes()
+        +configurarTarifas()
+        +gestionarUsuarios()
+    }
+    
+    class Membresia {
+        -int id
+        -TipoMembresia tipo
+        -float precioMensual
+        -int horasIncluidas
+        -Date fechaInicio
+        -Date fechaVencimiento
+        -boolean activa
+        +renovar()
+        +upgrade()
+        +calcularBeneficios()
+        +verificarVigencia()
+    }
+    
+    class Sede {
+        -int id
+        -String nombre
+        -String direccion
+        -String ciudad
+        -String telefono
+        -String horarioApertura
+        -String horarioCierre
+        +obtenerEspacios()
+        +verificarDisponibilidad()
+    }
+    
+    class Espacio {
+        -int id
+        -String nombre
+        -TipoEspacio tipo
+        -int capacidad
+        -float precioPorHora
+        -List~String~ equipamiento
+        -String descripcion
+        -List~String~ fotos
+        +verificarDisponibilidad()
+        +calcularPrecio()
+        +obtenerHorariosDisponibles()
+    }
+    
+    class Reserva {
+        -int id
+        -Date fechaReserva
+        -Time horaInicio
+        -Time horaFin
+        -EstadoReserva estado
+        -float precioTotal
+        -Date fechaCreacion
+        +confirmar()
+        +modificar()
+        +cancelar()
+        +calcularCosto()
+        +enviarConfirmacion()
+    }
+    
+    class Pago {
+        -int id
+        -float monto
+        -Date fechaPago
+        -MetodoPago metodoPago
+        -EstadoPago estado
+        -String transaccionId
+        +procesar()
+        +verificar()
+        +reembolsar()
+        +generarFactura()
+    }
+    
+    class Factura {
+        -int id
+        -String numeroFactura
+        -Date fechaEmision
+        -float subtotal
+        -float impuestos
+        -float total
+        -String rutaArchivo
+        +generar()
+        +descargar()
+        +enviarPorEmail()
+    }
+    
+    class Notificacion {
+        -int id
+        -String mensaje
+        -TipoNotificacion tipo
+        -Date fechaEnvio
+        -boolean leida
+        +enviar()
+        +marcarLeida()
+    }
+    
+    class Reporte {
+        -int id
+        -TipoReporte tipo
+        -Date fechaGeneracion
+        -String parametros
+        -String rutaArchivo
+        +generar()
+        +exportarPDF()
+        +exportarExcel()
+    }
+    
+    %% Herencia
+    Usuario <|-- Cliente
+    Usuario <|-- Administrador
+    
+    %% Relaciones
+    Cliente "1" -- "0..1" Membresia : tiene
+    Cliente "1" -- "0..*" Reserva : realiza
+    Cliente "1" -- "0..*" Pago : efectúa
+    Cliente "1" -- "0..*" Notificacion : recibe
+    
+    Sede "1" -- "1..*" Espacio : contiene
+    Espacio "1" -- "0..*" Reserva : es reservado en
+    
+    Reserva "1" -- "0..1" Pago : genera
+    Pago "1" -- "1" Factura : produce
+    
+    Administrador "1" -- "0..*" Reporte : genera
+    Administrador "1" -- "0..*" Sede : gestiona
+    
+    %% Enumeraciones
+    class TipoUsuario {
+        <<enumeration>>
+        CLIENTE
+        ADMINISTRADOR
+        SUPERADMIN
+    }
+    
+    class TipoMembresia {
+        <<enumeration>>
+        BASICA
+        PROFESIONAL
+        EMPRESARIAL
+    }
+    
+    class TipoEspacio {
+        <<enumeration>>
+        PUESTO_COMPARTIDO
+        OFICINA_PRIVADA
+        SALA_REUNIONES
+        SALA_CONFERENCIAS
+    }
+    
+    class EstadoReserva {
+        <<enumeration>>
+        PENDIENTE
+        CONFIRMADA
+        EN_CURSO
+        COMPLETADA
+        CANCELADA
+    }
+    
+    class EstadoPago {
+        <<enumeration>>
+        PENDIENTE
+        PROCESANDO
+        COMPLETADO
+        FALLIDO
+        REEMBOLSADO
+    }

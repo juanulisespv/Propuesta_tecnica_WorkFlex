@@ -1,0 +1,41 @@
+# Archivos del sistema operativo
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Archivos temporales
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Archivos de Word temporales
+~$*.doc*
+~$*.xls*
+~$*.ppt*
+
+# Carpetas de IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node modules (si decides agregar código)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos de build (si decides agregar código)
+dist/
+build/
+*.log
+
+# Archivos personales
+notas_personales.txt
+borrador.txt

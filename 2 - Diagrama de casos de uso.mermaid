@@ -1,0 +1,63 @@
+graph TB
+    subgraph Sistema["Sistema WorkFlex"]
+        UC1[Registrarse]
+        UC2[Iniciar Sesión]
+        UC3[Gestionar Perfil]
+        UC4[Buscar Espacios]
+        UC5[Ver Disponibilidad]
+        UC6[Realizar Reserva]
+        UC7[Modificar Reserva]
+        UC8[Cancelar Reserva]
+        UC9[Ver Historial Reservas]
+        UC10[Gestionar Membresía]
+        UC11[Realizar Pago]
+        UC12[Descargar Factura]
+        UC13[Check-in/Check-out]
+        UC14[Gestionar Espacios]
+        UC15[Gestionar Usuarios]
+        UC16[Ver Dashboard]
+        UC17[Generar Reportes]
+        UC18[Configurar Tarifas]
+        UC19[Gestionar Notificaciones]
+        UC20[Procesar Pago]
+    end
+    
+    Usuario[👤 Usuario Cliente]
+    Admin[👤 Administrador]
+    Sistema_Pago[🏦 Sistema de Pagos<br/>Pasarela Externa]
+    
+    Usuario -->|usa| UC1
+    Usuario -->|usa| UC2
+    Usuario -->|usa| UC3
+    Usuario -->|usa| UC4
+    Usuario -->|usa| UC5
+    Usuario -->|usa| UC6
+    Usuario -->|usa| UC7
+    Usuario -->|usa| UC8
+    Usuario -->|usa| UC9
+    Usuario -->|usa| UC10
+    Usuario -->|usa| UC11
+    Usuario -->|usa| UC12
+    Usuario -->|usa| UC13
+    
+    Admin -->|usa| UC2
+    Admin -->|usa| UC14
+    Admin -->|usa| UC15
+    Admin -->|usa| UC16
+    Admin -->|usa| UC17
+    Admin -->|usa| UC18
+    Admin -->|usa| UC19
+    
+    UC6 -.include.-> UC5
+    UC6 -.include.-> UC2
+    UC7 -.include.-> UC2
+    UC8 -.include.-> UC2
+    UC11 -.include.-> UC20
+    UC20 -.->|comunica con| Sistema_Pago
+    
+    UC6 -.extend.-> UC11
+    UC10 -.extend.-> UC11
+    
+    style Usuario fill:#4A90E2
+    style Admin fill:#E94B3C
+    style Sistema_Pago fill:#50C878
