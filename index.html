@@ -43,7 +43,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             background: var(--white);
             border-radius: 20px;
@@ -94,53 +94,29 @@
             border-bottom: 3px solid var(--primary);
         }
 
-        .diagram-list {
-            display: grid;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .diagram-item {
+        .diagram-container {
             background: var(--white);
             border: 2px solid var(--light);
             border-radius: 12px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
         }
 
-        .diagram-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            border-color: var(--primary);
-        }
-
-        .diagram-item h3 {
+        .diagram-container h3 {
             color: var(--primary);
-            margin-bottom: 0.8rem;
-            font-size: 1.3rem;
-        }
-
-        .diagram-item p {
-            color: #666;
             margin-bottom: 1rem;
-            font-size: 0.95rem;
+            font-size: 1.5rem;
         }
 
-        .btn {
-            display: inline-block;
-            padding: 0.7rem 1.5rem;
-            background: var(--primary);
-            color: var(--white);
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            font-weight: 500;
+        .diagram-container p {
+            color: #666;
+            margin-bottom: 1.5rem;
         }
 
-        .btn:hover {
-            background: #357ABD;
-            transform: translateX(5px);
+        .mermaid {
+            text-align: center;
+            background: var(--white);
         }
 
         footer {
@@ -182,90 +158,205 @@
             <div class="intro">
                 <h2>📊 Diagramas del Proyecto</h2>
                 <p>
-                    A continuación se encuentran todos los diagramas Mermaid del proyecto WorkFlex.
-                    Haz clic en los enlaces para ver cada diagrama.
+                    Diagramas Mermaid del proyecto WorkFlex renderizados directamente en esta página.
                 </p>
             </div>
 
             <!-- Diagramas UML -->
             <h2 class="section-title">📊 Diagramas UML</h2>
-            <div class="diagram-list">
-                <div class="diagram-item">
-                    <h3>👥 Diagrama de Casos de Uso</h3>
-                    <p>Muestra las interacciones entre los actores (Usuario Cliente, Administrador, Sistema de Pagos) y
-                        el sistema WorkFlex.</p>
-                    <a href="diagram.html?file=2 - Diagrama de casos de uso.mermaid" class="btn">Ver Diagrama</a>
-                </div>
 
-                <div class="diagram-item">
-                    <h3>🏗️ Diagrama de Clases</h3>
-                    <p>Define las entidades principales del sistema: Usuario, Cliente, Administrador, Reserva, Pago,
-                        Factura, Membresía, etc.</p>
-                    <a href="diagram.html?file=2 - Diagrama de clases.mermaid" class="btn">Ver Diagrama</a>
-                </div>
-
-                <div class="diagram-item">
-                    <h3>🔄 Diagrama de Secuencia</h3>
-                    <p>Ilustra el flujo completo de una reserva: autenticación, búsqueda de espacios, verificación de
-                        disponibilidad, pago y confirmación.</p>
-                    <a href="diagram.html?file=2 - Diagrama de secuencia.mermaid" class="btn">Ver Diagrama</a>
-                </div>
+            <div class="diagram-container">
+                <h3>👥 Diagrama de Casos de Uso</h3>
+                <p>Muestra las interacciones entre los actores (Usuario Cliente, Administrador, Sistema de Pagos) y el
+                    sistema WorkFlex.</p>
+                <pre class="mermaid">
+graph TB
+    subgraph Sistema["Sistema WorkFlex"]
+        UC1[Registrarse]
+        UC2[Iniciar Sesión]
+        UC3[Gestionar Perfil]
+        UC4[Buscar Espacios]
+        UC5[Ver Disponibilidad]
+        UC6[Realizar Reserva]
+        UC7[Modificar Reserva]
+        UC8[Cancelar Reserva]
+        UC9[Ver Historial Reservas]
+        UC10[Gestionar Membresía]
+        UC11[Realizar Pago]
+        UC12[Descargar Factura]
+        UC13[Check-in/Check-out]
+        UC14[Gestionar Espacios]
+        UC15[Gestionar Usuarios]
+        UC16[Ver Dashboard]
+        UC17[Generar Reportes]
+        UC18[Configurar Tarifas]
+        UC19[Gestionar Notificaciones]
+        UC20[Procesar Pago]
+    end
+    
+    Usuario[👤 Usuario Cliente]
+    Admin[👤 Administrador]
+    Sistema_Pago[🏦 Sistema de Pagos<br/>Pasarela Externa]
+    
+    Usuario -->|usa| UC1
+    Usuario -->|usa| UC2
+    Usuario -->|usa| UC3
+    Usuario -->|usa| UC4
+    Usuario -->|usa| UC5
+    Usuario -->|usa| UC6
+    Usuario -->|usa| UC7
+    Usuario -->|usa| UC8
+    Usuario -->|usa| UC9
+    Usuario -->|usa| UC10
+    Usuario -->|usa| UC11
+    Usuario -->|usa| UC12
+    Usuario -->|usa| UC13
+    
+    Admin -->|usa| UC2
+    Admin -->|usa| UC14
+    Admin -->|usa| UC15
+    Admin -->|usa| UC16
+    Admin -->|usa| UC17
+    Admin -->|usa| UC18
+    Admin -->|usa| UC19
+    
+    UC6 -.include.-> UC5
+    UC6 -.include.-> UC2
+    UC7 -.include.-> UC2
+    UC8 -.include.-> UC2
+    UC11 -.include.-> UC20
+    UC20 -.->|comunica con| Sistema_Pago
+    
+    UC6 -.extend.-> UC11
+    UC10 -.extend.-> UC11
+    
+    style Usuario fill:#4A90E2
+    style Admin fill:#E94B3C
+    style Sistema_Pago fill:#50C878
+                </pre>
             </div>
 
-            <!-- Modelado Conceptual -->
-            <h2 class="section-title">🗄️ Modelado Conceptual</h2>
-            <div class="diagram-list">
-                <div class="diagram-item">
-                    <h3>🗃️ Modelo Entidad-Relación</h3>
-                    <p>Diseño de la base de datos relacional con PostgreSQL. Incluye 11 entidades principales con sus
-                        relaciones.</p>
-                    <a href="diagram.html?file=3 - Modelo Entidad Relacion.mermaid" class="btn">Ver Diagrama</a>
-                </div>
-
-                <div class="diagram-item">
-                    <h3>🏛️ Arquitectura en Capas</h3>
-                    <p>Muestra las 5 capas del sistema: Presentación, API/Controllers, Lógica de Negocio, Acceso a Datos
-                        y Datos (PostgreSQL + Redis).</p>
-                    <a href="diagram.html?file=3 Arquitectura de capas.mermaid" class="btn">Ver Diagrama</a>
-                </div>
+            <div class="diagram-container">
+                <h3>🏛️ Arquitectura en Capas</h3>
+                <p>Muestra las 5 capas del sistema: Presentación, API/Controllers, Lógica de Negocio, Acceso a Datos y
+                    Datos (PostgreSQL + Redis).</p>
+                <pre class="mermaid">
+graph TB
+    subgraph "Capa de Presentación"
+        UI[Web UI - React]
+        Mobile[Mobile App - Futuro]
+        Admin[Admin Dashboard]
+    end
+    
+    subgraph "Capa de API / Controllers"
+        AuthAPI[Auth Controller]
+        ReservasAPI[Reservas Controller]
+        EspaciosAPI[Espacios Controller]
+        PagosAPI[Pagos Controller]
+        AdminAPI[Admin Controller]
+    end
+    
+    subgraph "Capa de Lógica de Negocio / Services"
+        AuthService[Authentication Service]
+        ReservasService[Reservas Service]
+        EspaciosService[Espacios Service]
+        PagosService[Pagos Service]
+        NotifService[Notificaciones Service]
+        ReportesService[Reportes Service]
+    end
+    
+    subgraph "Capa de Acceso a Datos / Repositories"
+        UserRepo[User Repository]
+        ReservaRepo[Reserva Repository]
+        EspacioRepo[Espacio Repository]
+        PagoRepo[Pago Repository]
+    end
+    
+    subgraph "Capa de Datos"
+        DB[(PostgreSQL<br/>Base de Datos)]
+        Cache[(Redis<br/>Cache)]
+    end
+    
+    subgraph "Servicios Externos"
+        Stripe[Stripe API]
+        Email[SendGrid API]
+        SMS[Twilio API]
+        Storage[S3 Storage]
+    end
+    
+    UI --> AuthAPI
+    UI --> ReservasAPI
+    UI --> EspaciosAPI
+    UI --> PagosAPI
+    Admin --> AdminAPI
+    
+    AuthAPI --> AuthService
+    ReservasAPI --> ReservasService
+    EspaciosAPI --> EspaciosService
+    PagosAPI --> PagosService
+    AdminAPI --> ReportesService
+    
+    AuthService --> UserRepo
+    ReservasService --> ReservaRepo
+    ReservasService --> EspacioRepo
+    ReservasService --> NotifService
+    EspaciosService --> EspacioRepo
+    PagosService --> PagoRepo
+    PagosService --> Stripe
+    NotifService --> Email
+    NotifService --> SMS
+    ReportesService --> ReservaRepo
+    ReportesService --> PagoRepo
+    
+    UserRepo --> DB
+    ReservaRepo --> DB
+    EspacioRepo --> DB
+    PagoRepo --> DB
+    
+    EspacioRepo --> Cache
+    ReservaRepo --> Cache
+    
+    ReportesService --> Storage
+    
+    style UI fill:#4A90E2
+    style Admin fill:#4A90E2
+    style DB fill:#2ECC71
+    style Cache fill:#F39C12
+    style Stripe fill:#E74C3C
+    style Email fill:#E74C3C
+    style SMS fill:#E74C3C
+    style Storage fill:#E74C3C
+                </pre>
             </div>
 
-            <!-- Prototipado -->
-            <h2 class="section-title">🎨 Prototipado y Flujos</h2>
-            <div class="diagram-list">
-                <div class="diagram-item">
-                    <h3>🗺️ Flujos de Usuario</h3>
-                    <p>Journey map completo del proceso de reserva, desde el descubrimiento hasta la fidelización del
-                        usuario.</p>
-                    <a href="diagram.html?file=4 - Flujos de usuario.mermaid" class="btn">Ver Diagrama</a>
-                </div>
-
-                <div class="diagram-item">
-                    <h3>🧭 Mapa de Navegación</h3>
-                    <p>Estructura completa del sitio web con todas las páginas y sub-páginas del sistema.</p>
-                    <a href="diagram.html?file=4 - Maoa de navegacino.mermaid" class="btn">Ver Diagrama</a>
-                </div>
+            <!-- Enlaces a archivos originales -->
+            <h2 class="section-title">📄 Archivos Originales</h2>
+            <div class="diagram-container">
+                <h3>Archivos .mermaid</h3>
+                <p>Todos los diagramas también están disponibles como archivos .mermaid individuales:</p>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin: 0.5rem 0;"><a href="2 - Diagrama de casos de uso.mermaid"
+                            style="color: #4A90E2;">📊 Diagrama de Casos de Uso</a></li>
+                    <li style="margin: 0.5rem 0;"><a href="2 - Diagrama de clases.mermaid" style="color: #4A90E2;">🏗️
+                            Diagrama de Clases</a></li>
+                    <li style="margin: 0.5rem 0;"><a href="2 - Diagrama de secuencia.mermaid" style="color: #4A90E2;">🔄
+                            Diagrama de Secuencia</a></li>
+                    <li style="margin: 0.5rem 0;"><a href="3 - Modelo Entidad Relacion.mermaid"
+                            style="color: #4A90E2;">🗃️ Modelo Entidad-Relación</a></li>
+                    <li style="margin: 0.5rem 0;"><a href="3 Arquitectura de capas.mermaid" style="color: #4A90E2;">🏛️
+                            Arquitectura en Capas</a></li>
+                    <li style="margin: 0.5rem 0;"><a href="4 - Flujos de usuario.mermaid" style="color: #4A90E2;">🗺️
+                            Flujos de Usuario</a></li>
+                    <li style="margin: 0.5rem 0;"><a href="4 - Maoa de navegacino.mermaid" style="color: #4A90E2;">🧭
+                            Mapa de Navegación</a></li>
+                    <li style="margin: 0.5rem 0;"><a href="5 - Arquitectura tecnica detallada.mermaid"
+                            style="color: #4A90E2;">🏛️ Arquitectura Técnica Detallada</a></li>
+                </ul>
             </div>
 
-            <!-- Arquitectura -->
-            <h2 class="section-title">🏗️ Arquitectura Técnica</h2>
-            <div class="diagram-list">
-                <div class="diagram-item">
-                    <h3>🏛️ Arquitectura Técnica Detallada</h3>
-                    <p>Diagrama completo del sistema: Clientes, CDN, API Gateway, Backend (Modular Monolith), Cache,
-                        Base de Datos y Servicios Externos.</p>
-                    <a href="diagram.html?file=5 - Arquitectura tecnica detallada.mermaid" class="btn">Ver Diagrama</a>
-                </div>
-            </div>
-
-            <!-- Documentación adicional -->
-            <h2 class="section-title">📄 Documentación Adicional</h2>
-            <div class="diagram-list">
-                <div class="diagram-item">
-                    <h3>📖 README del Proyecto</h3>
-                    <p>Documentación completa con índice navegable, requisitos, metodología y decisiones técnicas.</p>
-                    <a href="README.md" class="btn">Ver README</a>
-                </div>
+            <div class="diagram-container">
+                <h3>📖 Documentación</h3>
+                <p><a href="README.md" style="color: #4A90E2;">Ver README completo del proyecto</a></p>
             </div>
         </div>
 
