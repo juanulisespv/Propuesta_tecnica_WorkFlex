@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Diagramas del proyecto WorkFlex - Sistema de gestión de coworking">
     <title>WorkFlex - Diagramas del Proyecto</title>
-
-    <!-- Mermaid.js para renderizar diagramas -->
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({
@@ -17,14 +13,8 @@
             fontFamily: 'Inter, sans-serif'
         });
     </script>
-
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --primary: #4A90E2;
             --secondary: #2ECC71;
@@ -32,7 +22,6 @@
             --light: #ECF0F1;
             --white: #FFFFFF;
         }
-
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
@@ -41,7 +30,6 @@
             min-height: 100vh;
             padding: 2rem 1rem;
         }
-
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -50,29 +38,24 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             overflow: hidden;
         }
-
         header {
             background: linear-gradient(135deg, var(--primary) 0%, #357ABD 100%);
             color: var(--white);
             padding: 3rem 2rem;
             text-align: center;
         }
-
         header h1 {
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
         }
-
         header .subtitle {
             font-size: 1.2rem;
             opacity: 0.95;
         }
-
         .content {
             padding: 3rem 2rem;
         }
-
         .intro {
             background: var(--light);
             padding: 2rem;
@@ -80,20 +63,10 @@
             margin-bottom: 3rem;
             text-align: center;
         }
-
         .intro h2 {
             color: var(--primary);
             margin-bottom: 1rem;
         }
-
-        .section-title {
-            color: var(--primary);
-            font-size: 1.8rem;
-            margin: 3rem 0 1.5rem 0;
-            padding-bottom: 0.5rem;
-            border-bottom: 3px solid var(--primary);
-        }
-
         .diagram-container {
             background: var(--white);
             border: 2px solid var(--light);
@@ -102,51 +75,42 @@
             margin-bottom: 2rem;
             overflow-x: auto;
         }
-
         .diagram-container h3 {
             color: var(--primary);
             margin-bottom: 1rem;
             font-size: 1.5rem;
         }
-
         .diagram-container p {
             color: #666;
             margin-bottom: 1.5rem;
         }
-
         .mermaid {
             text-align: center;
             background: var(--white);
         }
-
         footer {
             background: var(--dark);
             color: var(--white);
             padding: 2rem;
             text-align: center;
         }
-
         footer a {
             color: var(--secondary);
             text-decoration: none;
         }
-
         footer a:hover {
             color: var(--primary);
         }
-
         @media (max-width: 768px) {
             header h1 {
                 font-size: 2rem;
             }
-
             .content {
                 padding: 2rem 1rem;
             }
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <header>
@@ -157,18 +121,13 @@
         <div class="content">
             <div class="intro">
                 <h2>📊 Diagramas del Proyecto</h2>
-                <p>
-                    Diagramas Mermaid del proyecto WorkFlex renderizados directamente en esta página.
-                </p>
+                <p>Todos los diagramas Mermaid del proyecto WorkFlex renderizados directamente.</p>
             </div>
 
-            <!-- Diagramas UML -->
-            <h2 class="section-title">📊 Diagramas UML</h2>
 
             <div class="diagram-container">
                 <h3>👥 Diagrama de Casos de Uso</h3>
-                <p>Muestra las interacciones entre los actores (Usuario Cliente, Administrador, Sistema de Pagos) y el
-                    sistema WorkFlex.</p>
+                <p>Muestra las interacciones entre los actores (Usuario Cliente, Administrador, Sistema de Pagos) y el sistema WorkFlex.</p>
                 <pre class="mermaid">
 graph TB
     subgraph Sistema["Sistema WorkFlex"]
@@ -237,9 +196,471 @@ graph TB
             </div>
 
             <div class="diagram-container">
+                <h3>🏗️ Diagrama de Clases</h3>
+                <p>Define las entidades principales del sistema: Usuario, Cliente, Administrador, Reserva, Pago, Factura, Membresía, etc.</p>
+                <pre class="mermaid">
+classDiagram
+    class Usuario {
+        -int id
+        -String nombre
+        -String email
+        -String password
+        -String telefono
+        -Date fechaRegistro
+        -TipoUsuario rol
+        +registrarse()
+        +iniciarSesion()
+        +actualizarPerfil()
+        +recuperarPassword()
+    }
+    
+    class Cliente {
+        -int creditosDisponibles
+        -Date ultimoAcceso
+        +realizarReserva()
+        +cancelarReserva()
+        +consultarHistorial()
+        +realizarCheckIn()
+    }
+    
+    class Administrador {
+        -String departamento
+        -List~String~ permisos
+        +gestionarEspacios()
+        +generarReportes()
+        +configurarTarifas()
+        +gestionarUsuarios()
+    }
+    
+    class Membresia {
+        -int id
+        -TipoMembresia tipo
+        -float precioMensual
+        -int horasIncluidas
+        -Date fechaInicio
+        -Date fechaVencimiento
+        -boolean activa
+        +renovar()
+        +upgrade()
+        +calcularBeneficios()
+        +verificarVigencia()
+    }
+    
+    class Sede {
+        -int id
+        -String nombre
+        -String direccion
+        -String ciudad
+        -String telefono
+        -String horarioApertura
+        -String horarioCierre
+        +obtenerEspacios()
+        +verificarDisponibilidad()
+    }
+    
+    class Espacio {
+        -int id
+        -String nombre
+        -TipoEspacio tipo
+        -int capacidad
+        -float precioPorHora
+        -List~String~ equipamiento
+        -String descripcion
+        -List~String~ fotos
+        +verificarDisponibilidad()
+        +calcularPrecio()
+        +obtenerHorariosDisponibles()
+    }
+    
+    class Reserva {
+        -int id
+        -Date fechaReserva
+        -Time horaInicio
+        -Time horaFin
+        -EstadoReserva estado
+        -float precioTotal
+        -Date fechaCreacion
+        +confirmar()
+        +modificar()
+        +cancelar()
+        +calcularCosto()
+        +enviarConfirmacion()
+    }
+    
+    class Pago {
+        -int id
+        -float monto
+        -Date fechaPago
+        -MetodoPago metodoPago
+        -EstadoPago estado
+        -String transaccionId
+        +procesar()
+        +verificar()
+        +reembolsar()
+        +generarFactura()
+    }
+    
+    class Factura {
+        -int id
+        -String numeroFactura
+        -Date fechaEmision
+        -float subtotal
+        -float impuestos
+        -float total
+        -String rutaArchivo
+        +generar()
+        +descargar()
+        +enviarPorEmail()
+    }
+    
+    class Notificacion {
+        -int id
+        -String mensaje
+        -TipoNotificacion tipo
+        -Date fechaEnvio
+        -boolean leida
+        +enviar()
+        +marcarLeida()
+    }
+    
+    class Reporte {
+        -int id
+        -TipoReporte tipo
+        -Date fechaGeneracion
+        -String parametros
+        -String rutaArchivo
+        +generar()
+        +exportarPDF()
+        +exportarExcel()
+    }
+    
+    %% Herencia
+    Usuario <|-- Cliente
+    Usuario <|-- Administrador
+    
+    %% Relaciones
+    Cliente "1" -- "0..1" Membresia : tiene
+    Cliente "1" -- "0..*" Reserva : realiza
+    Cliente "1" -- "0..*" Pago : efectúa
+    Cliente "1" -- "0..*" Notificacion : recibe
+    
+    Sede "1" -- "1..*" Espacio : contiene
+    Espacio "1" -- "0..*" Reserva : es reservado en
+    
+    Reserva "1" -- "0..1" Pago : genera
+    Pago "1" -- "1" Factura : produce
+    
+    Administrador "1" -- "0..*" Reporte : genera
+    Administrador "1" -- "0..*" Sede : gestiona
+    
+    %% Enumeraciones
+    class TipoUsuario {
+        <<enumeration>>
+        CLIENTE
+        ADMINISTRADOR
+        SUPERADMIN
+    }
+    
+    class TipoMembresia {
+        <<enumeration>>
+        BASICA
+        PROFESIONAL
+        EMPRESARIAL
+    }
+    
+    class TipoEspacio {
+        <<enumeration>>
+        PUESTO_COMPARTIDO
+        OFICINA_PRIVADA
+        SALA_REUNIONES
+        SALA_CONFERENCIAS
+    }
+    
+    class EstadoReserva {
+        <<enumeration>>
+        PENDIENTE
+        CONFIRMADA
+        EN_CURSO
+        COMPLETADA
+        CANCELADA
+    }
+    
+    class EstadoPago {
+        <<enumeration>>
+        PENDIENTE
+        PROCESANDO
+        COMPLETADO
+        FALLIDO
+        REEMBOLSADO
+    }
+                </pre>
+            </div>
+
+            <div class="diagram-container">
+                <h3>🔄 Diagrama de Secuencia</h3>
+                <p>Ilustra el flujo completo de una reserva: autenticación, búsqueda de espacios, verificación de disponibilidad, pago y confirmación.</p>
+                <pre class="mermaid">
+sequenceDiagram
+    actor Cliente
+    participant UI as Interfaz Web
+    participant Auth as Servicio Autenticación
+    participant Reservas as Servicio Reservas
+    participant Espacios as Servicio Espacios
+    participant Pagos as Servicio Pagos
+    participant Email as Servicio Email
+    participant DB as Base de Datos
+    
+    Cliente->>UI: Accede al sistema
+    UI->>Auth: Verificar sesión
+    Auth->>DB: Validar token
+    DB-->>Auth: Token válido
+    Auth-->>UI: Usuario autenticado
+    
+    Cliente->>UI: Busca espacio (sede, fecha, capacidad)
+    UI->>Espacios: buscarEspacios(filtros)
+    Espacios->>DB: SELECT espacios WHERE...
+    DB-->>Espacios: Lista de espacios
+    Espacios-->>UI: Espacios disponibles
+    UI-->>Cliente: Muestra resultados
+    
+    Cliente->>UI: Selecciona espacio y horario
+    UI->>Espacios: verificarDisponibilidad(espacioId, fecha, hora)
+    Espacios->>DB: Check disponibilidad
+    
+    alt Espacio disponible
+        DB-->>Espacios: Disponible
+        Espacios-->>UI: OK - Disponible
+        UI-->>Cliente: Confirma disponibilidad
+        
+        Cliente->>UI: Confirma reserva
+        UI->>Reservas: crearReserva(clienteId, espacioId, fecha, hora)
+        Reservas->>DB: INSERT reserva (estado: PENDIENTE)
+        DB-->>Reservas: Reserva creada (ID: 12345)
+        
+        Reservas->>Espacios: bloquearHorario(espacioId, fecha, hora)
+        Espacios->>DB: UPDATE disponibilidad
+        DB-->>Espacios: Horario bloqueado
+        
+        Reservas->>Reservas: calcularCosto()
+        
+        alt Cliente con créditos suficientes
+            Reservas->>DB: Deducir créditos cliente
+            DB-->>Reservas: Créditos deducidos
+            Reservas->>DB: UPDATE reserva (estado: CONFIRMADA)
+            DB-->>Reservas: Reserva confirmada
+            
+        else Requiere pago
+            Reservas->>Pagos: iniciarPago(reservaId, monto)
+            Pagos->>Pagos: Redirigir a pasarela
+            Cliente->>Pagos: Ingresa datos de pago
+            Pagos->>Pagos: Procesar pago (API externa)
+            
+            alt Pago exitoso
+                Pagos->>DB: INSERT pago (estado: COMPLETADO)
+                DB-->>Pagos: Pago registrado
+                Pagos->>Reservas: pagoCompletado(reservaId)
+                Reservas->>DB: UPDATE reserva (estado: CONFIRMADA)
+                DB-->>Reservas: Reserva confirmada
+                Pagos->>Pagos: generarFactura()
+                
+            else Pago fallido
+                Pagos->>DB: INSERT pago (estado: FALLIDO)
+                Pagos->>Reservas: pagoFallido(reservaId)
+                Reservas->>DB: UPDATE reserva (estado: CANCELADA)
+                Reservas->>Espacios: liberarHorario(espacioId, fecha, hora)
+                Espacios->>DB: UPDATE disponibilidad
+                Pagos-->>UI: Error en pago
+                UI-->>Cliente: Muestra error
+            end
+        end
+        
+        Reservas->>Email: enviarConfirmacion(clienteEmail, reservaId)
+        Email-->>Cliente: Email confirmación
+        
+        Reservas-->>UI: Reserva exitosa
+        UI-->>Cliente: Muestra confirmación + detalles
+        
+    else Espacio no disponible
+        DB-->>Espacios: No disponible
+        Espacios-->>UI: Espacio ocupado
+        UI-->>Cliente: Sugiere otros horarios
+    end
+                </pre>
+            </div>
+
+            <div class="diagram-container">
+                <h3>🗃️ Modelo Entidad-Relación</h3>
+                <p>Diseño de la base de datos relacional con PostgreSQL. Incluye 11 entidades principales con sus relaciones.</p>
+                <pre class="mermaid">
+erDiagram
+    USUARIOS ||--o{ CLIENTES : "es"
+    USUARIOS ||--o{ ADMINISTRADORES : "es"
+    
+    CLIENTES ||--o| MEMBRESIAS : "tiene"
+    CLIENTES ||--o{ RESERVAS : "realiza"
+    CLIENTES ||--o{ PAGOS : "efectua"
+    CLIENTES ||--o{ NOTIFICACIONES : "recibe"
+    
+    SEDES ||--|{ ESPACIOS : "contiene"
+    ESPACIOS ||--o{ RESERVAS : "es_reservado"
+    
+    RESERVAS ||--o| PAGOS : "genera"
+    PAGOS ||--|| FACTURAS : "produce"
+    
+    ADMINISTRADORES ||--o{ REPORTES : "genera"
+    ADMINISTRADORES ||--o{ SEDES : "gestiona"
+    
+    USUARIOS {
+        int id PK
+        string email UK
+        string password_hash
+        string nombre
+        string apellidos
+        string telefono
+        enum rol
+        datetime fecha_registro
+        datetime ultimo_acceso
+        boolean activo
+    }
+    
+    CLIENTES {
+        int id PK
+        int usuario_id FK
+        int creditos_disponibles
+        float saldo_cuenta
+        string preferencias_json
+        datetime ultima_reserva
+    }
+    
+    ADMINISTRADORES {
+        int id PK
+        int usuario_id FK
+        string departamento
+        string permisos_json
+        int sede_asignada_id FK
+    }
+    
+    MEMBRESIAS {
+        int id PK
+        int cliente_id FK
+        enum tipo
+        float precio_mensual
+        int horas_incluidas
+        date fecha_inicio
+        date fecha_vencimiento
+        boolean activa
+        boolean renovacion_automatica
+        datetime created_at
+        datetime updated_at
+    }
+    
+    SEDES {
+        int id PK
+        string nombre
+        string direccion
+        string ciudad
+        string pais
+        string codigo_postal
+        string telefono
+        string email
+        time hora_apertura
+        time hora_cierre
+        string dias_operacion
+        json coordenadas_gps
+        boolean activa
+    }
+    
+    ESPACIOS {
+        int id PK
+        int sede_id FK
+        string nombre
+        string codigo
+        enum tipo
+        int capacidad
+        float precio_por_hora
+        float precio_por_dia
+        string equipamiento_json
+        string descripcion
+        string fotos_json
+        int superficie_m2
+        boolean accesible
+        boolean activo
+    }
+    
+    RESERVAS {
+        int id PK
+        int cliente_id FK
+        int espacio_id FK
+        date fecha_reserva
+        time hora_inicio
+        time hora_fin
+        enum estado
+        float precio_total
+        float descuento_aplicado
+        string motivo_cancelacion
+        datetime fecha_creacion
+        datetime fecha_modificacion
+        datetime checkin_at
+        datetime checkout_at
+    }
+    
+    PAGOS {
+        int id PK
+        int cliente_id FK
+        int reserva_id FK
+        float monto
+        float comision
+        enum metodo_pago
+        enum estado
+        string transaccion_id
+        string pasarela
+        json datos_pago
+        datetime fecha_pago
+        datetime fecha_procesado
+    }
+    
+    FACTURAS {
+        int id PK
+        int pago_id FK
+        string numero_factura UK
+        date fecha_emision
+        float subtotal
+        float iva
+        float total
+        string ruta_pdf
+        boolean enviada
+        datetime fecha_envio
+    }
+    
+    NOTIFICACIONES {
+        int id PK
+        int cliente_id FK
+        enum tipo
+        string titulo
+        string mensaje
+        json datos_adicionales
+        boolean leida
+        datetime fecha_envio
+        datetime fecha_lectura
+    }
+    
+    REPORTES {
+        int id PK
+        int admin_id FK
+        enum tipo_reporte
+        date fecha_desde
+        date fecha_hasta
+        json parametros
+        json resultados
+        string ruta_archivo
+        datetime fecha_generacion
+    }
+                </pre>
+            </div>
+
+            <div class="diagram-container">
                 <h3>🏛️ Arquitectura en Capas</h3>
-                <p>Muestra las 5 capas del sistema: Presentación, API/Controllers, Lógica de Negocio, Acceso a Datos y
-                    Datos (PostgreSQL + Redis).</p>
+                <p>Muestra las 5 capas del sistema: Presentación, API/Controllers, Lógica de Negocio, Acceso a Datos y Datos (PostgreSQL + Redis).</p>
                 <pre class="mermaid">
 graph TB
     subgraph "Capa de Presentación"
@@ -329,30 +750,278 @@ graph TB
                 </pre>
             </div>
 
-            <!-- Enlaces a archivos originales -->
-            <h2 class="section-title">📄 Archivos Originales</h2>
             <div class="diagram-container">
-                <h3>Archivos .mermaid</h3>
-                <p>Todos los diagramas también están disponibles como archivos .mermaid individuales:</p>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="margin: 0.5rem 0;"><a href="2 - Diagrama de casos de uso.mermaid"
-                            style="color: #4A90E2;">📊 Diagrama de Casos de Uso</a></li>
-                    <li style="margin: 0.5rem 0;"><a href="2 - Diagrama de clases.mermaid" style="color: #4A90E2;">🏗️
-                            Diagrama de Clases</a></li>
-                    <li style="margin: 0.5rem 0;"><a href="2 - Diagrama de secuencia.mermaid" style="color: #4A90E2;">🔄
-                            Diagrama de Secuencia</a></li>
-                    <li style="margin: 0.5rem 0;"><a href="3 - Modelo Entidad Relacion.mermaid"
-                            style="color: #4A90E2;">🗃️ Modelo Entidad-Relación</a></li>
-                    <li style="margin: 0.5rem 0;"><a href="3 Arquitectura de capas.mermaid" style="color: #4A90E2;">🏛️
-                            Arquitectura en Capas</a></li>
-                    <li style="margin: 0.5rem 0;"><a href="4 - Flujos de usuario.mermaid" style="color: #4A90E2;">🗺️
-                            Flujos de Usuario</a></li>
-                    <li style="margin: 0.5rem 0;"><a href="4 - Maoa de navegacino.mermaid" style="color: #4A90E2;">🧭
-                            Mapa de Navegación</a></li>
-                    <li style="margin: 0.5rem 0;"><a href="5 - Arquitectura tecnica detallada.mermaid"
-                            style="color: #4A90E2;">🏛️ Arquitectura Técnica Detallada</a></li>
-                </ul>
+                <h3>🗺️ Flujos de Usuario</h3>
+                <p>Journey map completo del proceso de reserva, desde el descubrimiento hasta la fidelización del usuario.</p>
+                <pre class="mermaid">
+graph TD
+    Start([Usuario llega a WorkFlex])
+    
+    Start --> A{¿Usuario registrado?}
+    
+    A -->|No| B[Registro]
+    B --> C[Validar email]
+    C --> D[Login exitoso]
+    
+    A -->|Sí| E[Login]
+    E --> D
+    
+    D --> F[Inicio - Dashboard]
+    
+    F --> G[Buscar espacios]
+    
+    G --> H[Aplicar filtros:<br/>Ubicación, Fecha,<br/>Tipo, Capacidad]
+    
+    H --> I[Ver resultados]
+    
+    I --> J{¿Espacio<br/>encontrado?}
+    
+    J -->|No| K[Modificar filtros]
+    K --> H
+    
+    J -->|Sí| L[Ver detalle espacio]
+    
+    L --> M[Seleccionar fecha/hora]
+    
+    M --> N{¿Disponible?}
+    
+    N -->|No| O[Mostrar horarios<br/>alternativos]
+    O --> M
+    
+    N -->|Sí| P[Confirmar reserva]
+    
+    P --> Q{¿Tiene créditos<br/>suficientes?}
+    
+    Q -->|Sí| R[Deducir créditos]
+    R --> S[Reserva confirmada]
+    
+    Q -->|No| T[Seleccionar método<br/>de pago]
+    
+    T --> U[Procesar pago]
+    
+    U --> V{¿Pago<br/>exitoso?}
+    
+    V -->|No| W[Mostrar error]
+    W --> T
+    
+    V -->|Sí| X[Generar factura]
+    X --> S
+    
+    S --> Y[Enviar confirmación<br/>por email]
+    
+    Y --> Z[Mostrar pantalla<br/>de éxito]
+    
+    Z --> AA[Añadir a<br/>'Mis Reservas']
+    
+    AA --> End([Fin del flujo])
+    
+    style Start fill:#4A90E2,color:#fff
+    style End fill:#2ECC71,color:#fff
+    style S fill:#27AE60,color:#fff
+    style W fill:#E74C3C,color:#fff
+    style V fill:#F39C12
+    style N fill:#F39C12
+    style Q fill:#F39C12
+    style J fill:#F39C12
+    style A fill:#F39C12
+                </pre>
             </div>
+
+            <div class="diagram-container">
+                <h3>🧭 Mapa de Navegación</h3>
+                <p>Estructura completa del sitio web con todas las páginas y sub-páginas del sistema.</p>
+                <pre class="mermaid">
+graph TD
+    Home[🏠 Página Principal]
+    
+    Home --> Login[🔐 Login/Registro]
+    Home --> Busqueda[🔍 Búsqueda de Espacios]
+    Home --> Membresias[💼 Membresías]
+    Home --> Nosotros[ℹ️ Sobre WorkFlex]
+    
+    Busqueda --> Filtros[Aplicar Filtros]
+    Busqueda --> DetalleEspacio[📋 Detalle de Espacio]
+    
+    DetalleEspacio --> Reserva[📅 Proceso de Reserva]
+    
+    Reserva --> SeleccionFecha[Seleccionar Fecha/Hora]
+    SeleccionFecha --> Pago[💳 Pasarela de Pago]
+    Pago --> Confirmacion[✅ Confirmación de Reserva]
+    Confirmacion --> Email[📧 Email Confirmación]
+    
+    Login --> PanelUsuario[👤 Panel de Usuario]
+    
+    PanelUsuario --> MisReservas[📑 Mis Reservas]
+    PanelUsuario --> MiPerfil[⚙️ Mi Perfil]
+    PanelUsuario --> MiMembresia[💼 Mi Membresía]
+    PanelUsuario --> Pagos[💰 Historial de Pagos]
+    PanelUsuario --> Facturas[🧾 Mis Facturas]
+    
+    MisReservas --> ModificarReserva[✏️ Modificar Reserva]
+    MisReservas --> CancelarReserva[❌ Cancelar Reserva]
+    MisReservas --> CheckIn[✔️ Check-in Digital]
+    
+    MiMembresia --> UpgradeMembresia[⬆️ Upgrade Membresía]
+    MiMembresia --> RenovarMembresia[🔄 Renovar Membresía]
+    
+    Login --> PanelAdmin[👨‍💼 Panel Administrador]
+    
+    PanelAdmin --> Dashboard[📊 Dashboard]
+    PanelAdmin --> GestionEspacios[🏢 Gestión de Espacios]
+    PanelAdmin --> GestionUsuarios[👥 Gestión de Usuarios]
+    PanelAdmin --> Reportes[📈 Reportes]
+    PanelAdmin --> Configuracion[⚙️ Configuración]
+    
+    GestionEspacios --> CrearEspacio[➕ Crear Espacio]
+    GestionEspacios --> EditarEspacio[✏️ Editar Espacio]
+    GestionEspacios --> EliminarEspacio[🗑️ Desactivar Espacio]
+    
+    GestionUsuarios --> VerUsuarios[👀 Ver Usuarios]
+    GestionUsuarios --> EditarPermisos[🔑 Editar Permisos]
+    GestionUsuarios --> GestionMembresias[💼 Gestión Membresías]
+    
+    Reportes --> ReporteOcupacion[📊 Reporte Ocupación]
+    Reportes --> ReporteIngresos[💵 Reporte Ingresos]
+    Reportes --> ReporteUsuarios[👥 Reporte Usuarios]
+    Reportes --> ExportarReporte[📥 Exportar]
+    
+    Configuracion --> ConfigTarifas[💲 Configurar Tarifas]
+    Configuracion --> ConfigNotif[🔔 Configurar Notificaciones]
+    Configuracion --> ConfigSedes[🏢 Gestionar Sedes]
+    
+    style Home fill:#4A90E2,color:#fff
+    style PanelUsuario fill:#2ECC71,color:#fff
+    style PanelAdmin fill:#E74C3C,color:#fff
+    style Pago fill:#F39C12,color:#fff
+    style Confirmacion fill:#27AE60,color:#fff
+                </pre>
+            </div>
+
+            <div class="diagram-container">
+                <h3>🏛️ Arquitectura Técnica Detallada</h3>
+                <p>Diagrama completo del sistema: Clientes, CDN, API Gateway, Backend (Modular Monolith), Cache, Base de Datos y Servicios Externos.</p>
+                <pre class="mermaid">
+graph TB
+    subgraph "Clientes"
+        Web[💻 Web App<br/>React + Vite]
+        Mobile[📱 Mobile<br/>React Native<br/>Fase 2]
+        Admin[🖥️ Admin Panel<br/>React]
+    end
+    
+    subgraph "CDN y Assets"
+        CDN[☁️ Cloudflare CDN<br/>Assets estáticos]
+        S3[📦 AWS S3<br/>Imágenes y PDFs]
+    end
+    
+    subgraph "API Gateway & Load Balancer"
+        LB[⚖️ NGINX<br/>Load Balancer]
+        Gateway[🚪 API Gateway<br/>Rate limiting<br/>Authentication]
+    end
+    
+    subgraph "Aplicación Backend - Modular Monolith"
+        direction TB
+        API[🔌 REST API Layer<br/>Express.js / FastAPI]
+        
+        subgraph "Módulos de Negocio"
+            Auth[🔐 Auth Module<br/>JWT + OAuth]
+            Reservas[📅 Reservations Module<br/>Booking logic]
+            Espacios[🏢 Spaces Module<br/>Availability engine]
+            Pagos[💳 Payments Module<br/>Payment orchestration]
+            Notif[📧 Notifications Module<br/>Email/SMS queue]
+            Reports[📊 Reports Module<br/>Analytics engine]
+        end
+        
+        subgraph "Capa de Datos"
+            Repos[📚 Repositories<br/>Data access layer]
+        end
+    end
+    
+    subgraph "Capa de Cache"
+        Redis[(🔴 Redis<br/>Session store<br/>Query cache)]
+    end
+    
+    subgraph "Base de Datos"
+        Postgres[(🐘 PostgreSQL<br/>Master DB)]
+        PG_Read[(🐘 PostgreSQL<br/>Read Replica<br/>Fase 2)]
+    end
+    
+    subgraph "Message Queue Fase 2"
+        Queue[📨 RabbitMQ/SQS<br/>Async tasks]
+    end
+    
+    subgraph "Servicios Externos"
+        Stripe[💳 Stripe API<br/>Payment processing]
+        SendGrid[📧 SendGrid<br/>Transactional email]
+        Twilio[📱 Twilio<br/>SMS notifications]
+        Maps[🗺️ Google Maps API<br/>Geolocation]
+    end
+    
+    subgraph "Monitoring & Logging"
+        Logger[📝 Winston/Pino<br/>Application logs]
+        Monitor[📈 Prometheus + Grafana<br/>Metrics & alerts]
+        Sentry[🐛 Sentry<br/>Error tracking]
+    end
+    
+    subgraph "CI/CD Pipeline"
+        GitHub[🐙 GitHub<br/>Source control]
+        Actions[⚙️ GitHub Actions<br/>CI/CD]
+        Docker[🐳 Docker<br/>Containerization]
+    end
+    
+    Web --> CDN
+    Admin --> CDN
+    Web --> LB
+    Mobile --> LB
+    Admin --> LB
+    
+    CDN --> S3
+    
+    LB --> Gateway
+    Gateway --> API
+    
+    API --> Auth
+    API --> Reservas
+    API --> Espacios
+    API --> Pagos
+    API --> Notif
+    API --> Reports
+    
+    Auth --> Repos
+    Reservas --> Repos
+    Espacios --> Repos
+    Pagos --> Repos
+    Notif --> Queue
+    Reports --> Repos
+    
+    Repos --> Redis
+    Repos --> Postgres
+    
+    Postgres -.->|Replicación| PG_Read
+    Reports --> PG_Read
+    
+    Pagos --> Stripe
+    Notif --> SendGrid
+    Notif --> Twilio
+    Espacios --> Maps
+    
+    API --> Logger
+    API --> Monitor
+    API --> Sentry
+    
+    GitHub --> Actions
+    Actions --> Docker
+    Docker --> API
+    
+    style Web fill:#4A90E2
+    style Admin fill:#4A90E2
+    style API fill:#2ECC71
+    style Postgres fill:#336791
+    style Redis fill:#DC382D
+    style Stripe fill:#635BFF
+    style Gateway fill:#FF6B6B
+                </pre>
+            </div>
+
 
             <div class="diagram-container">
                 <h3>📖 Documentación</h3>
@@ -370,5 +1039,4 @@ graph TB
         </footer>
     </div>
 </body>
-
 </html>
