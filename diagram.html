@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrama - WorkFlex</title>
+
+    <!-- Mermaid.js -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            color: #4A90E2;
+            margin-bottom: 0.5rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            background: #4A90E2;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: #357ABD;
+        }
+
+        .diagram-container {
+            background: white;
+            border: 2px solid #ECF0F1;
+            border-radius: 12px;
+            padding: 2rem;
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            text-align: center;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        .error {
+            text-align: center;
+            padding: 3rem;
+            color: #E74C3C;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Volver a Diagramas</a>
+
+        <div class="header">
+            <h1 id="diagram-title">Cargando diagrama...</h1>
+        </div>
+
+        <div class="diagram-container">
+            <div class="loading" id="loading">Cargando diagrama...</div>
+            <div class="mermaid" id="diagram"></div>
+        </div>
+    </div>
+
+    <script>
+        // Obtener el nombre del archivo del parámetro URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const diagramFile = urlParams.get('file');
+
+        const titles = {
+            '2 - Diagrama de casos de uso.mermaid': '👥 Diagrama de Casos de Uso',
+            '2 - Diagrama de clases.mermaid': '🏗️ Diagrama de Clases',
+            '2 - Diagrama de secuencia.mermaid': '🔄 Diagrama de Secuencia',
+            '3 - Modelo Entidad Relacion.mermaid': '🗃️ Modelo Entidad-Relación',
+            '3 Arquitectura de capas.mermaid': '🏛️ Arquitectura en Capas',
+            '4 - Flujos de usuario.mermaid': '🗺️ Flujos de Usuario',
+            '4 - Maoa de navegacino.mermaid': '🧭 Mapa de Navegación',
+            '5 - Arquitectura tecnica detallada.mermaid': '🏛️ Arquitectura Técnica Detallada'
+        };
+
+        if (diagramFile && titles[diagramFile]) {
+            document.getElementById('diagram-title').textContent = titles[diagramFile];
+
+            fetch(diagramFile)
+                .then(response => {
+                    if (!response.ok) throw new Error('No se pudo cargar el diagrama');
+                    return response.text();
+                })
+                .then(text => {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('diagram').textContent = text;
+                })
+                .catch(error => {
+                    document.getElementById('loading').innerHTML =
+                        `<div class="error">
+                            <p>❌ Error al cargar el diagrama</p>
+                            <p style="font-size: 0.9rem; margin-top: 1rem;">${error.message}</p>
+                            <p style="margin-top: 1rem;">
+                                <a href="${diagramFile}" style="color: #4A90E2;">Ver archivo original</a>
+                            </p>
+                        </div>`;
+                });
+        } else {
+            document.getElementById('diagram-title').textContent = 'Error';
+            document.getElementById('loading').innerHTML =
+                `<div class="error">
+                    <p>❌ No se especificó un diagrama válido</p>
+                    <p style="margin-top: 1rem;">
+                        <a href="index.html" style="color: #4A90E2;">Volver a la lista de diagramas</a>
+                    </p>
+                </div>`;
+        }
+    </script>
+</body>
+
+</html>
