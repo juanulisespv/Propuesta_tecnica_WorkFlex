@@ -6,9 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="Propuesta de diseño para el sistema de gestión de coworking WorkFlex - Proyecto de Ingeniería de Software">
-    <meta name="keywords" content="WorkFlex, coworking, ingeniería de software, UML, arquitectura, API REST">
-    <meta name="author" content="Proyecto WorkFlex">
     <title>WorkFlex - Propuesta de Diseño | Ingeniería de Software</title>
+
+    <!-- Mermaid.js para renderizar diagramas -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+    </script>
 
     <style>
         * {
@@ -21,15 +30,13 @@
             --primary: #4A90E2;
             --secondary: #2ECC71;
             --accent: #F39C12;
-            --error: #E74C3C;
             --dark: #2C3E50;
             --light: #ECF0F1;
             --white: #FFFFFF;
-            --shadow: rgba(0, 0, 0, 0.1);
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
             color: var(--dark);
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -38,7 +45,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             background: var(--white);
             border-radius: 20px;
@@ -51,256 +58,149 @@
             color: var(--white);
             padding: 3rem 2rem;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            animation: pulse 15s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.1);
-            }
         }
 
         header h1 {
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
-            position: relative;
-            z-index: 1;
         }
 
         header .subtitle {
             font-size: 1.2rem;
             opacity: 0.95;
-            font-weight: 300;
-            position: relative;
-            z-index: 1;
         }
 
-        header .meta {
-            margin-top: 1.5rem;
-            font-size: 0.95rem;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
+        .nav-tabs {
+            display: flex;
+            background: var(--dark);
+            overflow-x: auto;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-tab {
+            padding: 1rem 2rem;
+            color: var(--white);
+            text-decoration: none;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 1rem;
+        }
+
+        .nav-tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-tab.active {
+            background: var(--primary);
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
         }
 
         .intro {
-            padding: 2rem;
             background: var(--light);
-            border-bottom: 3px solid var(--primary);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
         }
 
         .intro h2 {
             color: var(--primary);
             margin-bottom: 1rem;
-            font-size: 1.8rem;
         }
 
-        .intro p {
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            color: #555;
-        }
-
-        .objectives {
+        .doc-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .objective-card {
-            background: var(--white);
-            padding: 1.5rem;
-            border-radius: 10px;
-            border-left: 4px solid var(--secondary);
-            box-shadow: 0 2px 8px var(--shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .objective-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px var(--shadow);
-        }
-
-        .objective-card h3 {
-            color: var(--secondary);
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .main-content {
-            padding: 2rem;
-        }
-
-        .section {
-            margin-bottom: 3rem;
-        }
-
-        .section h2 {
-            color: var(--primary);
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 3px solid var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .section-icon {
-            font-size: 2rem;
-        }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 1.5rem;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
         }
 
-        .card {
+        .doc-card {
             background: var(--white);
+            border: 2px solid var(--light);
             border-radius: 12px;
             padding: 1.5rem;
-            box-shadow: 0 4px 12px var(--shadow);
-            border: 2px solid transparent;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 24px var(--shadow);
+        .doc-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
             border-color: var(--primary);
         }
 
-        .card h3 {
-            color: var(--dark);
-            font-size: 1.3rem;
+        .doc-card h3 {
+            color: var(--primary);
             margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            font-size: 1.3rem;
         }
 
-        .card-icon {
-            font-size: 1.5rem;
-        }
-
-        .card p {
+        .doc-card p {
             color: #666;
             margin-bottom: 1rem;
             font-size: 0.95rem;
         }
 
-        .card-links {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
         .btn {
             display: inline-block;
-            padding: 0.7rem 1.2rem;
+            padding: 0.7rem 1.5rem;
             background: var(--primary);
             color: var(--white);
             text-decoration: none;
             border-radius: 8px;
             transition: all 0.3s ease;
             font-weight: 500;
-            text-align: center;
-            border: 2px solid var(--primary);
+            margin-right: 0.5rem;
+            margin-top: 0.5rem;
         }
 
         .btn:hover {
             background: #357ABD;
             transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
         }
 
         .btn-secondary {
-            background: var(--white);
-            color: var(--primary);
-            border: 2px solid var(--primary);
+            background: var(--secondary);
         }
 
         .btn-secondary:hover {
-            background: var(--primary);
-            color: var(--white);
+            background: #27AE60;
         }
 
-        .btn-accent {
-            background: var(--accent);
-            border-color: var(--accent);
-        }
-
-        .btn-accent:hover {
-            background: #E67E22;
-            border-color: #E67E22;
-        }
-
-        .tech-stack {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .tech-item {
-            background: var(--light);
-            padding: 1rem;
-            border-radius: 8px;
-            text-align: center;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .tech-item:hover {
+        .diagram-container {
             background: var(--white);
-            border-color: var(--primary);
-            transform: scale(1.05);
+            border: 2px solid var(--light);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            overflow-x: auto;
         }
 
-        .tech-item strong {
-            display: block;
+        .diagram-container h3 {
             color: var(--primary);
-            margin-bottom: 0.3rem;
-            font-size: 0.9rem;
+            margin-bottom: 1rem;
         }
 
-        .tech-item span {
-            font-size: 0.85rem;
-            color: #666;
+        .mermaid {
+            text-align: center;
+            background: var(--white);
         }
 
         footer {
@@ -313,54 +213,16 @@
         footer a {
             color: var(--secondary);
             text-decoration: none;
-            transition: color 0.3s ease;
         }
 
         footer a:hover {
             color: var(--accent);
         }
 
-        .badge {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            background: var(--secondary);
-            color: var(--white);
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-left: 0.5rem;
-        }
-
-        .badge-warning {
-            background: var(--accent);
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, var(--primary), #357ABD);
-            color: var(--white);
-            padding: 1.5rem;
-            border-radius: 12px;
+        .loading {
             text-align: center;
-            box-shadow: 0 4px 12px var(--shadow);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.9;
+            padding: 2rem;
+            color: #666;
         }
 
         @media (max-width: 768px) {
@@ -368,31 +230,14 @@
                 font-size: 2rem;
             }
 
-            .cards-grid {
+            .doc-grid {
                 grid-template-columns: 1fr;
             }
 
-            .section h2 {
-                font-size: 1.5rem;
+            .nav-tab {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
             }
-        }
-
-        .quick-links {
-            background: var(--light);
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-        }
-
-        .quick-links h3 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .quick-links-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
         }
     </style>
 </head>
@@ -402,290 +247,279 @@
         <header>
             <h1>🏢 WorkFlex</h1>
             <p class="subtitle">Propuesta de Diseño - Sistema de Gestión de Coworking</p>
-            <p class="meta">
+            <p style="margin-top: 1rem; opacity: 0.9;">
                 📚 Ingeniería de Software | 📅 Noviembre 2025
             </p>
         </header>
 
-        <div class="intro">
-            <h2>🎯 Resumen Ejecutivo</h2>
-            <p>
-                WorkFlex es una empresa que gestiona espacios de coworking en diferentes ciudades.
-                Esta propuesta presenta el diseño completo de una plataforma digital para mejorar
-                la gestión de reservas, membresías, facturación y reportes.
-            </p>
+        <nav class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('inicio')">🏠 Inicio</button>
+            <button class="nav-tab" onclick="showSection('uml')">📊 Diagramas UML</button>
+            <button class="nav-tab" onclick="showSection('conceptual')">🗄️ Modelado Conceptual</button>
+            <button class="nav-tab" onclick="showSection('prototipado')">🎨 Prototipado</button>
+            <button class="nav-tab" onclick="showSection('arquitectura')">🏗️ Arquitectura</button>
+            <button class="nav-tab" onclick="showSection('documentos')">📄 Documentos</button>
+        </nav>
 
-            <div class="objectives">
-                <div class="objective-card">
-                    <h3>✅ Sistema Centralizado</h3>
-                    <p>Reservas en tiempo real desde cualquier sede</p>
+        <div class="content">
+            <!-- Sección Inicio -->
+            <section id="inicio" class="section active">
+                <div class="intro">
+                    <h2>🎯 Resumen Ejecutivo</h2>
+                    <p>
+                        WorkFlex es una empresa que gestiona espacios de coworking en diferentes ciudades.
+                        Esta propuesta presenta el diseño completo de una plataforma digital para mejorar
+                        la gestión de reservas, membresías, facturación y reportes.
+                    </p>
                 </div>
-                <div class="objective-card">
-                    <h3>💼 Gestión de Membresías</h3>
-                    <p>Control de accesos y privilegios por tipo de usuario</p>
-                </div>
-                <div class="objective-card">
-                    <h3>💳 Pagos en Línea</h3>
-                    <p>Facturación automática y pasarelas de pago</p>
-                </div>
-                <div class="objective-card">
-                    <h3>📊 Reportes y Analytics</h3>
-                    <p>Estadísticas de ocupación e ingresos</p>
-                </div>
-            </div>
-        </div>
 
-        <div class="main-content">
-            <!-- Quick Links -->
-            <div class="quick-links">
-                <h3>🔗 Accesos Rápidos</h3>
-                <div class="quick-links-grid">
-                    <a href="README.md" class="btn">📖 Documentación Completa</a>
-                    <a href="trabajo" class="btn btn-secondary">📄 Documento Principal</a>
-                    <a href="https://github.com/juanulisespv/Propuesta_tecnica_WorkFlex" class="btn btn-accent"
-                        target="_blank">🐙 Ver en GitHub</a>
-                </div>
-            </div>
+                <h2 style="color: var(--primary); margin-bottom: 1rem;">📚 Documentación del Proyecto</h2>
 
-            <!-- Stats -->
-            <div class="stats">
-                <div class="stat-card">
-                    <span class="stat-number">8</span>
-                    <span class="stat-label">Diagramas UML y Arquitectura</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">25+</span>
-                    <span class="stat-label">Endpoints API REST</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">14</span>
-                    <span class="stat-label">Patrones de Diseño</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">3-4</span>
-                    <span class="stat-label">Meses para MVP</span>
-                </div>
-            </div>
-
-            <!-- Sección 1: Análisis de Requisitos -->
-            <section class="section">
-                <h2><span class="section-icon">📋</span> 1. Análisis de Requisitos</h2>
-
-                <div class="cards-grid">
-                    <div class="card">
-                        <h3><span class="card-icon">✅</span> Requisitos Funcionales</h3>
-                        <p>Gestión de usuarios, espacios, reservas, membresías, pagos, reportes y notificaciones.</p>
-                        <div class="card-links">
-                            <a href="README.md#1-análisis-de-requisitos" class="btn">Ver Detalles</a>
-                        </div>
+                <div class="doc-grid">
+                    <div class="doc-card">
+                        <h3>📖 README Principal</h3>
+                        <p>Índice completo con navegación a todos los documentos, resumen de requisitos, metodología y
+                            decisiones técnicas.</p>
+                        <a href="README.md" class="btn">Ver Documentación</a>
                     </div>
 
-                    <div class="card">
-                        <h3><span class="card-icon">⚡</span> Requisitos No Funcionales</h3>
-                        <p>Rendimiento, escalabilidad, seguridad, disponibilidad 99.5%, usabilidad y mantenibilidad.</p>
-                        <div class="card-links">
-                            <a href="README.md#requisitos-no-funcionales" class="btn">Ver Detalles</a>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <h3><span class="card-icon">🏃</span> Metodología: Scrum</h3>
-                        <p>Metodología ágil con sprints de 2 semanas. MVP en 2-3 sprints, feedback continuo.</p>
-                        <div class="card-links">
-                            <a href="README.md#metodología-de-gestión" class="btn">Ver Justificación</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Sección 2: Modelado UML -->
-            <section class="section">
-                <h2><span class="section-icon">📊</span> 2. Modelado UML</h2>
-
-                <div class="cards-grid">
-                    <div class="card">
-                        <h3><span class="card-icon">👥</span> Diagrama de Casos de Uso</h3>
-                        <p>Interacciones entre usuarios (Cliente, Administrador) y el sistema WorkFlex.</p>
-                        <div class="card-links">
-                            <a href="2 - Diagrama de casos de uso.mermaid" class="btn">Ver Diagrama</a>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <h3><span class="card-icon">🏗️</span> Diagrama de Clases</h3>
-                        <p>Entidades principales: Usuario, Cliente, Administrador, Reserva, Pago, Factura, etc.</p>
-                        <div class="card-links">
-                            <a href="2 - Diagrama de clases.mermaid" class="btn">Ver Diagrama</a>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <h3><span class="card-icon">🔄</span> Diagrama de Secuencia</h3>
-                        <p>Flujo completo de una reserva: autenticación, búsqueda, pago y confirmación.</p>
-                        <div class="card-links">
-                            <a href="2 - Diagrama de secuencia.mermaid" class="btn">Ver Diagrama</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Sección 3: Modelado Conceptual -->
-            <section class="section">
-                <h2><span class="section-icon">🗄️</span> 3. Modelado Conceptual</h2>
-
-                <div class="cards-grid">
-                    <div class="card">
-                        <h3><span class="card-icon">🗃️</span> Modelo Entidad-Relación</h3>
-                        <p>Base de datos relacional con PostgreSQL. 11 entidades principales con relaciones bien
-                            definidas.</p>
-                        <div class="card-links">
-                            <a href="3 - Modelo Entidad Relacion.mermaid" class="btn">Ver Modelo ER</a>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <h3><span class="card-icon">🎨</span> Patrones de Diseño <span class="badge">14 Patrones</span>
-                        </h3>
-                        <p>Factory, Builder, Singleton, MVC, Repository, Adapter, Strategy, Observer, State, Command,
-                            etc.</p>
-                        <div class="card-links">
-                            <a href="3 - Patrones de diseño.md" class="btn">Ver Documento</a>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <h3><span class="card-icon">🏛️</span> Arquitectura en Capas</h3>
-                        <p>5 capas: Presentación, API, Lógica de Negocio, Acceso a Datos, y Datos (PostgreSQL + Redis).
+                    <div class="doc-card">
+                        <h3>📄 Documento Principal</h3>
+                        <p>Propuesta completa con 817 líneas: análisis, requisitos, UML, patrones, arquitectura y APIs.
                         </p>
-                        <div class="card-links">
-                            <a href="3 Arquitectura de capas.mermaid" class="btn">Ver Diagrama</a>
-                        </div>
+                        <a href="trabajo" class="btn">Ver Documento</a>
+                    </div>
+
+                    <div class="doc-card">
+                        <h3>🐙 Repositorio GitHub</h3>
+                        <p>Código fuente completo, historial de cambios y colaboración en GitHub.</p>
+                        <a href="https://github.com/juanulisespv/Propuesta_tecnica_WorkFlex" class="btn btn-secondary"
+                            target="_blank">Ver en GitHub</a>
                     </div>
                 </div>
             </section>
 
-            <!-- Sección 4: Prototipado -->
-            <section class="section">
-                <h2><span class="section-icon">🎨</span> 4. Prototipado y Mockups</h2>
+            <!-- Sección UML -->
+            <section id="uml" class="section">
+                <h2 style="color: var(--primary); margin-bottom: 1.5rem;">📊 Diagramas UML</h2>
 
-                <div class="cards-grid">
-                    <div class="card">
-                        <h3><span class="card-icon">🖼️</span> Wireframes Interactivos</h3>
+                <div class="diagram-container">
+                    <h3>👥 Diagrama de Casos de Uso</h3>
+                    <p>Interacciones entre usuarios (Cliente, Administrador) y el sistema WorkFlex.</p>
+                    <div class="loading">Cargando diagrama...</div>
+                    <div class="mermaid" id="diagram-casos-uso"></div>
+                    <a href="2 - Diagrama de casos de uso.mermaid" class="btn" style="margin-top: 1rem;">Ver Código
+                        Fuente</a>
+                </div>
+
+                <div class="diagram-container">
+                    <h3>🏗️ Diagrama de Clases</h3>
+                    <p>Entidades principales: Usuario, Cliente, Administrador, Reserva, Pago, Factura, etc.</p>
+                    <div class="loading">Cargando diagrama...</div>
+                    <div class="mermaid" id="diagram-clases"></div>
+                    <a href="2 - Diagrama de clases.mermaid" class="btn" style="margin-top: 1rem;">Ver Código Fuente</a>
+                </div>
+
+                <div class="diagram-container">
+                    <h3>🔄 Diagrama de Secuencia</h3>
+                    <p>Flujo completo de una reserva: autenticación, búsqueda, pago y confirmación.</p>
+                    <div class="loading">Cargando diagrama...</div>
+                    <div class="mermaid" id="diagram-secuencia"></div>
+                    <a href="2 - Diagrama de secuencia.mermaid" class="btn" style="margin-top: 1rem;">Ver Código
+                        Fuente</a>
+                </div>
+            </section>
+
+            <!-- Sección Modelado Conceptual -->
+            <section id="conceptual" class="section">
+                <h2 style="color: var(--primary); margin-bottom: 1.5rem;">🗄️ Modelado Conceptual</h2>
+
+                <div class="diagram-container">
+                    <h3>🗃️ Modelo Entidad-Relación</h3>
+                    <p>Base de datos relacional con PostgreSQL. 11 entidades principales con relaciones bien definidas.
+                    </p>
+                    <div class="loading">Cargando diagrama...</div>
+                    <div class="mermaid" id="diagram-er"></div>
+                    <a href="3 - Modelo Entidad Relacion.mermaid" class="btn" style="margin-top: 1rem;">Ver Código
+                        Fuente</a>
+                </div>
+
+                <div class="diagram-container">
+                    <h3>🏛️ Arquitectura en Capas</h3>
+                    <p>5 capas: Presentación, API, Lógica de Negocio, Acceso a Datos, y Datos (PostgreSQL + Redis).</p>
+                    <div class="loading">Cargando diagrama...</div>
+                    <div class="mermaid" id="diagram-capas"></div>
+                    <a href="3 Arquitectura de capas.mermaid" class="btn" style="margin-top: 1rem;">Ver Código
+                        Fuente</a>
+                </div>
+
+                <div class="doc-grid" style="margin-top: 2rem;">
+                    <div class="doc-card">
+                        <h3>🎨 Patrones de Diseño</h3>
+                        <p>14 patrones explicados: Factory, Builder, Singleton, MVC, Repository, Adapter, Strategy,
+                            Observer, State, Command, etc.</p>
+                        <a href="3 - Patrones de diseño.md" class="btn">Ver Documento</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección Prototipado -->
+            <section id="prototipado" class="section">
+                <h2 style="color: var(--primary); margin-bottom: 1.5rem;">🎨 Prototipado y Mockups</h2>
+
+                <div class="diagram-container">
+                    <h3>🗺️ Flujos de Usuario</h3>
+                    <p>Journey map completo desde descubrimiento hasta fidelización del usuario.</p>
+                    <div class="loading">Cargando diagrama...</div>
+                    <div class="mermaid" id="diagram-flujos"></div>
+                    <a href="4 - Flujos de usuario.mermaid" class="btn" style="margin-top: 1rem;">Ver Código Fuente</a>
+                </div>
+
+                <div class="diagram-container">
+                    <h3>🧭 Mapa de Navegación</h3>
+                    <p>Estructura completa del sitio con todas las páginas y sub-páginas.</p>
+                    <div class="loading">Cargando diagrama...</div>
+                    <div class="mermaid" id="diagram-navegacion"></div>
+                    <a href="4 - Maoa de navegacino.mermaid" class="btn" style="margin-top: 1rem;">Ver Código Fuente</a>
+                </div>
+
+                <div class="doc-grid" style="margin-top: 2rem;">
+                    <div class="doc-card">
+                        <h3>🖼️ Wireframes Interactivos</h3>
                         <p>Pantallas principales: Login, Búsqueda, Reserva, Panel Usuario, Dashboard Admin.</p>
-                        <div class="card-links">
-                            <a href="4 - Pantallas principales.html" class="btn" target="_blank">Ver Wireframes</a>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <h3><span class="card-icon">🗺️</span> Flujos de Usuario</h3>
-                        <p>Journey map completo desde descubrimiento hasta fidelización del usuario.</p>
-                        <div class="card-links">
-                            <a href="4 - Flujos de usuario.mermaid" class="btn">Ver Flujos</a>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <h3><span class="card-icon">🧭</span> Mapa de Navegación</h3>
-                        <p>Estructura completa del sitio con todas las páginas y sub-páginas.</p>
-                        <div class="card-links">
-                            <a href="4 - Maoa de navegacino.mermaid" class="btn">Ver Mapa</a>
-                        </div>
+                        <a href="4 - Pantallas principales.html" class="btn" target="_blank">Ver Wireframes</a>
                     </div>
                 </div>
             </section>
 
-            <!-- Sección 5: Arquitectura y APIs -->
-            <section class="section">
-                <h2><span class="section-icon">🏗️</span> 5. Arquitectura y APIs</h2>
+            <!-- Sección Arquitectura -->
+            <section id="arquitectura" class="section">
+                <h2 style="color: var(--primary); margin-bottom: 1.5rem;">🏗️ Arquitectura y APIs</h2>
 
-                <div class="cards-grid">
-                    <div class="card">
-                        <h3><span class="card-icon">🔧</span> Decisión Arquitectónica</h3>
-                        <p>Modular Monolith (Híbrido): Balance perfecto entre simplicidad y escalabilidad.</p>
-                        <div class="card-links">
-                            <a href="5 - Comparacion arquitecturas.md" class="btn">Ver Comparación</a>
-                        </div>
+                <div class="diagram-container">
+                    <h3>🏛️ Arquitectura Técnica Detallada</h3>
+                    <p>Diagrama completo: Clientes, CDN, API Gateway, Backend, Cache, BD, Servicios Externos.</p>
+                    <div class="loading">Cargando diagrama...</div>
+                    <div class="mermaid" id="diagram-arquitectura"></div>
+                    <a href="5 - Arquitectura tecnica detallada.mermaid" class="btn" style="margin-top: 1rem;">Ver
+                        Código Fuente</a>
+                </div>
+
+                <div class="doc-grid" style="margin-top: 2rem;">
+                    <div class="doc-card">
+                        <h3>🔧 Comparación de Arquitecturas</h3>
+                        <p>Análisis detallado: Monolito vs Microservicios vs Híbrido. Decisión: Modular Monolith.</p>
+                        <a href="5 - Comparacion arquitecturas.md" class="btn">Ver Análisis</a>
                     </div>
 
-                    <div class="card">
-                        <h3><span class="card-icon">💻</span> Stack Tecnológico</h3>
+                    <div class="doc-card">
+                        <h3>💻 Stack Tecnológico</h3>
                         <p>React, Node.js, PostgreSQL, Redis, Stripe, SendGrid, AWS S3, Docker, GitHub Actions.</p>
-                        <div class="card-links">
-                            <a href="5 - Tecnologia usada.md" class="btn">Ver Stack Completo</a>
-                        </div>
+                        <a href="5 - Tecnologia usada.md" class="btn">Ver Stack</a>
                     </div>
 
-                    <div class="card">
-                        <h3><span class="card-icon">🔌</span> API REST <span class="badge">25+ Endpoints</span></h3>
-                        <p>Especificación completa de endpoints: Auth, Usuarios, Espacios, Reservas, Pagos, Admin.</p>
-                        <div class="card-links">
-                            <a href="5-api-endpoints.md" class="btn">Ver Endpoints</a>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <h3><span class="card-icon">🏛️</span> Arquitectura Técnica</h3>
-                        <p>Diagrama completo: Clientes, CDN, API Gateway, Backend, Cache, BD, Servicios Externos.</p>
-                        <div class="card-links">
-                            <a href="5 - Arquitectura tecnica detallada.mermaid" class="btn">Ver Diagrama</a>
-                        </div>
+                    <div class="doc-card">
+                        <h3>🔌 API REST Endpoints</h3>
+                        <p>Especificación completa de 25+ endpoints: Auth, Usuarios, Espacios, Reservas, Pagos, Admin.
+                        </p>
+                        <a href="5-api-endpoints.md" class="btn">Ver Endpoints</a>
                     </div>
                 </div>
             </section>
 
-            <!-- Stack Tecnológico Resumen -->
-            <section class="section">
-                <h2><span class="section-icon">⚙️</span> Stack Tecnológico Resumen</h2>
+            <!-- Sección Documentos -->
+            <section id="documentos" class="section">
+                <h2 style="color: var(--primary); margin-bottom: 1.5rem;">📄 Todos los Documentos</h2>
 
-                <div class="tech-stack">
-                    <div class="tech-item">
-                        <strong>Frontend</strong>
-                        <span>React + TypeScript</span>
+                <div class="doc-grid">
+                    <div class="doc-card">
+                        <h3>📖 README.md</h3>
+                        <p>Índice completo navegable con toda la documentación del proyecto.</p>
+                        <a href="README.md" class="btn">Ver</a>
                     </div>
-                    <div class="tech-item">
-                        <strong>Backend</strong>
-                        <span>Node.js + Express</span>
+
+                    <div class="doc-card">
+                        <h3>📄 Documento Principal</h3>
+                        <p>Propuesta completa (817 líneas) con todos los apartados del proyecto.</p>
+                        <a href="trabajo" class="btn">Ver</a>
                     </div>
-                    <div class="tech-item">
-                        <strong>Base de Datos</strong>
-                        <span>PostgreSQL 15</span>
+
+                    <div class="doc-card">
+                        <h3>📊 Diagrama de Casos de Uso</h3>
+                        <p>Interacciones entre actores y sistema (Mermaid).</p>
+                        <a href="2 - Diagrama de casos de uso.mermaid" class="btn">Ver</a>
                     </div>
-                    <div class="tech-item">
-                        <strong>Cache</strong>
-                        <span>Redis 7</span>
+
+                    <div class="doc-card">
+                        <h3>🏗️ Diagrama de Clases</h3>
+                        <p>Entidades principales y relaciones (Mermaid).</p>
+                        <a href="2 - Diagrama de clases.mermaid" class="btn">Ver</a>
                     </div>
-                    <div class="tech-item">
-                        <strong>ORM</strong>
-                        <span>Prisma</span>
+
+                    <div class="doc-card">
+                        <h3>🔄 Diagrama de Secuencia</h3>
+                        <p>Flujo de interacción para realizar una reserva (Mermaid).</p>
+                        <a href="2 - Diagrama de secuencia.mermaid" class="btn">Ver</a>
                     </div>
-                    <div class="tech-item">
-                        <strong>Auth</strong>
-                        <span>JWT + bcrypt</span>
+
+                    <div class="doc-card">
+                        <h3>🗃️ Modelo Entidad-Relación</h3>
+                        <p>Diseño de base de datos relacional (Mermaid).</p>
+                        <a href="3 - Modelo Entidad Relacion.mermaid" class="btn">Ver</a>
                     </div>
-                    <div class="tech-item">
-                        <strong>Pagos</strong>
-                        <span>Stripe API</span>
+
+                    <div class="doc-card">
+                        <h3>🎨 Patrones de Diseño</h3>
+                        <p>14 patrones de diseño explicados en detalle.</p>
+                        <a href="3 - Patrones de diseño.md" class="btn">Ver</a>
                     </div>
-                    <div class="tech-item">
-                        <strong>Email</strong>
-                        <span>SendGrid</span>
+
+                    <div class="doc-card">
+                        <h3>🏛️ Arquitectura en Capas</h3>
+                        <p>Diagrama de arquitectura en 5 capas (Mermaid).</p>
+                        <a href="3 Arquitectura de capas.mermaid" class="btn">Ver</a>
                     </div>
-                    <div class="tech-item">
-                        <strong>Storage</strong>
-                        <span>AWS S3</span>
+
+                    <div class="doc-card">
+                        <h3>🗺️ Flujos de Usuario</h3>
+                        <p>Journey map del proceso de reserva (Mermaid).</p>
+                        <a href="4 - Flujos de usuario.mermaid" class="btn">Ver</a>
                     </div>
-                    <div class="tech-item">
-                        <strong>Monitoring</strong>
-                        <span>Sentry + Grafana</span>
+
+                    <div class="doc-card">
+                        <h3>🧭 Mapa de Navegación</h3>
+                        <p>Estructura completa del sitio web (Mermaid).</p>
+                        <a href="4 - Maoa de navegacino.mermaid" class="btn">Ver</a>
                     </div>
-                    <div class="tech-item">
-                        <strong>CI/CD</strong>
-                        <span>GitHub Actions</span>
+
+                    <div class="doc-card">
+                        <h3>🖼️ Wireframes HTML</h3>
+                        <p>Pantallas principales interactivas en HTML.</p>
+                        <a href="4 - Pantallas principales.html" class="btn" target="_blank">Ver</a>
                     </div>
-                    <div class="tech-item">
-                        <strong>Hosting</strong>
-                        <span>DigitalOcean</span>
+
+                    <div class="doc-card">
+                        <h3>🏛️ Arquitectura Técnica</h3>
+                        <p>Diagrama técnico detallado del sistema (Mermaid).</p>
+                        <a href="5 - Arquitectura tecnica detallada.mermaid" class="btn">Ver</a>
+                    </div>
+
+                    <div class="doc-card">
+                        <h3>🔧 Comparación Arquitecturas</h3>
+                        <p>Análisis: Monolito vs Microservicios vs Híbrido.</p>
+                        <a href="5 - Comparacion arquitecturas.md" class="btn">Ver</a>
+                    </div>
+
+                    <div class="doc-card">
+                        <h3>💻 Stack Tecnológico</h3>
+                        <p>Tecnologías utilizadas con justificación.</p>
+                        <a href="5 - Tecnologia usada.md" class="btn">Ver</a>
+                    </div>
+
+                    <div class="doc-card">
+                        <h3>🔌 API Endpoints</h3>
+                        <p>Especificación completa de la API REST.</p>
+                        <a href="5-api-endpoints.md" class="btn">Ver</a>
                     </div>
                 </div>
             </section>
@@ -695,14 +529,76 @@
             <p><strong>WorkFlex - Propuesta de Diseño</strong></p>
             <p>Proyecto de Ingeniería de Software | Noviembre 2025</p>
             <p style="margin-top: 1rem;">
-                <a href="README.md">📖 Documentación Completa</a> |
+                <a href="README.md">📖 Documentación</a> |
                 <a href="https://github.com/juanulisespv/Propuesta_tecnica_WorkFlex" target="_blank">🐙 GitHub</a>
-            </p>
-            <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
-                Última actualización: 22 de noviembre de 2025
             </p>
         </footer>
     </div>
+
+    <script>
+        // Función para cambiar de sección
+        function showSection(sectionId) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Quitar clase active de todos los tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Mostrar la sección seleccionada
+            document.getElementById(sectionId).classList.add('active');
+
+            // Activar el tab correspondiente
+            event.target.classList.add('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Cargar diagramas Mermaid desde archivos
+        async function loadDiagram(file, elementId) {
+            try {
+                const response = await fetch(file);
+                const text = await response.text();
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.textContent = text;
+                    element.removeAttribute('data-processed');
+                    // Ocultar mensaje de carga
+                    const loading = element.previousElementSibling;
+                    if (loading && loading.classList.contains('loading')) {
+                        loading.style.display = 'none';
+                    }
+                }
+            } catch (error) {
+                console.error(`Error loading ${file}:`, error);
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.innerHTML = '<p style="color: red;">Error al cargar el diagrama. <a href="' + file + '">Ver archivo original</a></p>';
+                }
+            }
+        }
+
+        // Cargar todos los diagramas cuando se carga la página
+        window.addEventListener('load', async () => {
+            await loadDiagram('2 - Diagrama de casos de uso.mermaid', 'diagram-casos-uso');
+            await loadDiagram('2 - Diagrama de clases.mermaid', 'diagram-clases');
+            await loadDiagram('2 - Diagrama de secuencia.mermaid', 'diagram-secuencia');
+            await loadDiagram('3 - Modelo Entidad Relacion.mermaid', 'diagram-er');
+            await loadDiagram('3 Arquitectura de capas.mermaid', 'diagram-capas');
+            await loadDiagram('4 - Flujos de usuario.mermaid', 'diagram-flujos');
+            await loadDiagram('4 - Maoa de navegacino.mermaid', 'diagram-navegacion');
+            await loadDiagram('5 - Arquitectura tecnica detallada.mermaid', 'diagram-arquitectura');
+
+            // Re-inicializar Mermaid después de cargar los diagramas
+            if (typeof mermaid !== 'undefined') {
+                mermaid.run();
+            }
+        });
+    </script>
 </body>
 
 </html>
